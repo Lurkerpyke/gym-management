@@ -1,101 +1,164 @@
-import Image from "next/image";
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { CheckCircle2 } from "lucide-react"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      {/* Hero Section */}
+      <section className="w-full relative">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/placeholder.svg"
+            alt="Gym interior"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+          <div className="absolute inset-0 bg-black/60" /> {/* Overlay for better text visibility */}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="relative z-10 container mx-auto px-4 py-24 md:py-32 lg:py-40">
+          <div className="flex flex-col items-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
+                Manage Your Gym with Ease
+              </h1>
+              <p className="mx-auto max-w-[700px] text-white/90 md:text-xl">
+                Streamline operations, boost member engagement, and grow your fitness business with GymPro.
+              </p>
+            </div>
+            <div className="space-x-4">
+              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-white/90 hover:text-primary">Get Started</Button>
+              <Button variant="outline" className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary">
+                Learn More
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {["Member Management", "Class Scheduling", "Billing & Payments"].map((feature, index) => (
+              <Card key={index} className="flex flex-col items-center text-center">
+                <CardHeader>
+                  <CardTitle>{feature}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p>Efficiently manage all aspects of your gym with our intuitive tools.</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="w-full py-12 md:py-24">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+            What Our Clients Say
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                name: "John Doe",
+                role: "Gym Owner",
+                quote: "GymPro has revolutionized how we manage our gym. It's a game-changer!",
+              },
+              {
+                name: "Jane Smith",
+                role: "Fitness Trainer",
+                quote: "The class scheduling feature saves me hours every week. Highly recommended!",
+              },
+            ].map((testimonial, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{testimonial.name}</CardTitle>
+                  <CardDescription>{testimonial.role}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>"{testimonial.quote}"</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+            Pricing Plans
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { name: "Basic", price: "$49", features: ["Member Management", "Class Scheduling", "Basic Reporting"] },
+              {
+                name: "Pro",
+                price: "$99",
+                features: ["All Basic Features", "Advanced Reporting", "Integrated Payments"],
+              },
+              {
+                name: "Enterprise",
+                price: "Custom",
+                features: ["All Pro Features", "Dedicated Support", "Custom Integrations"],
+              },
+            ].map((plan, index) => (
+              <Card key={index} className="flex flex-col">
+                <CardHeader>
+                  <CardTitle>{plan.name}</CardTitle>
+                  <CardDescription className="text-2xl font-bold">{plan.price}/mo</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <ul className="space-y-2">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-center">
+                        <CheckCircle2 className="mr-2 h-4 w-4 text-primary" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full">Choose Plan</Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="w-full py-12 md:py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center space-y-4 text-center">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Ready to Transform Your Gym?
+              </h2>
+              <p className="mx-auto max-w-[600px] text-primary-foreground/90 md:text-xl">
+                Join thousands of satisfied gym owners and start optimizing your business today.
+              </p>
+            </div>
+            <div className="space-x-4">
+              <Button className="bg-background text-primary hover:bg-background/90">Start Free Trial</Button>
+              <Button
+                variant="outline"
+                className="bg-background text-primary hover:bg-background/90"
+              >
+                Contact Sales
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
+

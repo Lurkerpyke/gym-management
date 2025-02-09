@@ -16,8 +16,8 @@ export default function SignIn() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-xl font-bold mb-4">Login</h1>
+      <div className="p-6 bg-white rounded-lg shadow-md flex flex-col gap-3">
+        <h1 className="text-xl text-primary text-center font-bold mb-4">Login</h1>
         {providers &&
           Object.values(providers).map((provider: any) => (
             <div key={provider.name}>
