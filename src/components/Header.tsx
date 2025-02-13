@@ -1,6 +1,5 @@
 import React from 'react'
 import { ThemeToggle } from './ui/theme-toggle'
-import Loginbtn from './ui/login-btn'
 import { Button } from './ui/button'
 
 const Header = () => {
@@ -27,9 +26,8 @@ const Header = () => {
           </nav>
         </div>
         <div className='flex justify-between gap-3'>
-            <Button className='bg-secondary-foreground text-primary-foreground'>SignIn</Button>
-            {/* <Loginbtn /> */}
-            <ThemeToggle />
+          <Button className='bg-secondary-foreground text-primary-foreground'><a href='/signin'>SignIn</a></Button>
+          <ThemeToggle />
         </div>
       </div>
     </header>

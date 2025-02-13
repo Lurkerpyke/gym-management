@@ -30,7 +30,7 @@ export default function Home() {
             </div>
             <div className="space-x-4">
               <Button className="bg-primary-foreground text-secondary-foreground hover:bg-white/90 hover:text-primary">Get Started</Button>
-              <Button variant="outline" className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary">
+              <Button className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary m-0">
                 Learn More
               </Button>
             </div>
@@ -147,7 +147,7 @@ export default function Home() {
               </p>
             </div>
             <div className="space-x-4">
-              <Button className="bg-background text-primary hover:bg-background/90">Start Free Trial</Button>
+              <Button className="bg-background text-primary hover:bg-background/90" variant="outline">Start Free Trial</Button>
               <Button
                 variant="outline"
                 className="bg-background text-primary hover:bg-background/90"
