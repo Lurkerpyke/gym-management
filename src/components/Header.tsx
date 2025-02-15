@@ -1,6 +1,9 @@
+'use client'
+
 import React from 'react'
 import { ThemeToggle } from './ui/theme-toggle'
-import { Button } from './ui/button'
+import SignInButton from './ui/signinbutton'
+import { SessionProvider } from 'next-auth/react'
 
 const Header = () => {
   return (
@@ -14,7 +17,7 @@ const Header = () => {
             <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/features">
               Features
             </a>
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/pricing">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="#pricing">
               Pricing
             </a>
             <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/about">
@@ -26,7 +29,9 @@ const Header = () => {
           </nav>
         </div>
         <div className='flex justify-between gap-3'>
-          <Button className='bg-secondary-foreground text-primary-foreground'><a href='/signin'>SignIn</a></Button>
+          <SessionProvider>
+            <SignInButton />
+          </SessionProvider>
           <ThemeToggle />
         </div>
       </div>

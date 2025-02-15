@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/theme-provider.tsx", "src/components/ui/login-btn.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/ui/theme-provider.tsx", "src/components/ui/login-btn.jsx", "src/components/ui/signinbutton.jsx"],
   "exclude": ["node_modules"]
 }

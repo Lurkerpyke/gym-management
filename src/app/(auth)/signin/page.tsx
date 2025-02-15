@@ -16,26 +16,28 @@ export default function SignIn() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-muted">
-      <div className="p-6 bg-background rounded-lg shadow-md flex flex-col lg:w-[600px] lg:h-[60vh] items-center">
-        <h1 className="text-2xl text-primary text-center font-bold mb-4">Login</h1>
-        <div className='h-full w-full flex flex-col gap-3 justify-center items-center'>
+    <div className="flex items-center justify-center min-h-screen bg-muted">
+      <div className="p-8 bg-background rounded-xl shadow-lg flex flex-col lg:w-[400px] items-center border border-foreground">
+        <h1 className="text-3xl text-primary text-center font-bold mb-8">Welcome Back</h1>
+        <div className='h-full w-full flex flex-col gap-4 justify-center items-center mb-8'>
           {providers &&
             Object.values(providers).map((provider: any) => (
-              <div key={provider.name}>
+              <div key={provider.name} className="w-full">
                 <button
                   onClick={() => signIn(provider.id)}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-blue-700 flex gap-2"
+                  className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-blue-700 flex items-center justify-center gap-3 transition-all duration-200 ease-in-out"
                 >
                   Entrar com {provider.name}
-                  <LogInIcon />
+                  <LogInIcon className="w-5 h-5" />
                 </button>
               </div>
             ))}
         </div>
-        <div className='flex flex-col justify-center items-center gap-1'>
-          <p>Não tem uma conta ainda?</p>
-          <a href="register" className='italic'>crie sua conta</a>
+        <div className='flex flex-col justify-center items-center gap-2 text-gray-500'>
+          <p className="text-sm">Não tem uma conta ainda?</p>
+          <a href="register" className='text-xs text-primary hover:text-blue-700 transition-colors duration-200 hover:underline'>
+            crie sua conta
+          </a>
         </div>
       </div>
     </div>

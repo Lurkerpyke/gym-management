@@ -30,7 +30,7 @@ const handler = NextAuth({
         strategy: "jwt",
     },
     pages: {
-        signIn: "/auth/signin", // Página de login personalizada (opcional)
+        signIn: "/signin", // Página de login personalizada (opcional)
     },
 });
 

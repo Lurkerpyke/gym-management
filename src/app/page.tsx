@@ -56,6 +56,85 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Classes Section */}
+      <section className="w-full py-12 md:py-24">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+            Our Classes
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Power Lifting",
+                instructor: "Mike Strong",
+                schedule: "Mon, Wed, Fri",
+                description: "Build strength and power with professional guidance",
+                image: "/placeholder.svg"
+              },
+              {
+                name: "Yoga Flow",
+                instructor: "Sarah Peace",
+                schedule: "Tue, Thu, Sat",
+                description: "Find balance and flexibility through mindful movement",
+                image: "/placeholder.svg"
+              },
+              {
+                name: "HIIT Training",
+                instructor: "Jack Swift",
+                schedule: "Mon, Wed, Fri",
+                description: "High-intensity interval training for maximum results",
+                image: "/placeholder.svg"
+              },
+              {
+                name: "Spin Class",
+                instructor: "Emma Ride",
+                schedule: "Tue, Thu, Sat",
+                description: "Cardio-intensive indoor cycling sessions",
+                image: "/placeholder.svg"
+              },
+              {
+                name: "CrossFit",
+                instructor: "Alex Power",
+                schedule: "Mon to Sat",
+                description: "Varied functional movements performed at high intensity",
+                image: "/placeholder.svg"
+              },
+              {
+                name: "Boxing",
+                instructor: "Tony Punch",
+                schedule: "Mon, Wed, Fri",
+                description: "Learn boxing techniques and improve your fitness",
+                image: "/placeholder.svg"
+              }
+            ].map((classItem, index) => (
+              <Card key={index} className="overflow-hidden">
+                <CardHeader>
+                  <div className="h-48 relative mb-4">
+                    <Image
+                      src={classItem.image}
+                      alt={classItem.name}
+                      fill
+                      className="object-cover rounded-md"
+                    />
+                  </div>
+                  <CardTitle>{classItem.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <p className="font-medium">Instructor: {classItem.instructor}</p>
+                    <p className="text-sm text-muted-foreground">Schedule: {classItem.schedule}</p>
+                    <p className="text-sm">{classItem.description}</p>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full">Book Class</Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Testimonials Section */}
       <section className="w-full py-12 md:py-24">
@@ -91,7 +170,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="w-full py-12 md:py-24 bg-muted">
+      <section className="w-full py-12 md:py-24 bg-muted" id="pricing">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
             Pricing Plans
@@ -161,4 +240,3 @@ export default function Home() {
     </div>
   )
 }
-
