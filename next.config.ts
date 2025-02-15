@@ -2,8 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     images: {
-        domains: ['www.pexels.com'], // Adicione aqui os domínios permitidos
+        domains: ['lh3.googleusercontent.com', 'www.pexels.com', 'avatars.githubusercontent.com'], // Adicionando múltiplos domínios
     },
 };
+
 
 export default nextConfig;

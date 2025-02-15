@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name         String?
   email        String    @unique
   emailVerified DateTime?
@@ -19,21 +19,31 @@ model User {
 }
 
 model Account {
-  id                 Int      @id @default(autoincrement())
-  userId             Int
-  type               String
-  provider           String
-  providerAccountId  String   @unique
-  access_token       String?
-  refresh_token      String?
-  user               User     @relation(fields: [userId], references: [id])
+  id                String  @id @default(cuid())
+  userId            String  @unique
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? 
+  access_token      String? 
+  expires_at        Int? 
+  token_type        String? 
+  scope             String? 
+  id_token          String? 
+  session_state     String? 
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])  // <- Adiciona a restrição única corretamente
 }
 
+
 model Session {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  expires   DateTime
-  sessionToken String @unique
-  user      User    @relation(fields: [userId], references: [id])
+  id            String   @id @default(cuid())  // Alterado para String
+  userId        String
+  expires       DateTime
+  sessionToken  String   @unique
+  user          User     @relation(fields: [userId], references: [id])
 }
+
 
