@@ -14,17 +14,17 @@ const Header = () => {
             <span className="font-bold sm:inline-block">GymPro</span>
           </a>
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/features">
-              Features
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/schedule">
+              Calendário
             </a>
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="#pricing">
-              Pricing
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/billing">
+              Assinatura
             </a>
             <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/about">
-              About
+              Sobre
             </a>
             <a className="transition-colors hover:text-foreground/80 text-foreground/60" href="/contact">
-              Contact
+              Contatos
             </a>
           </nav>
         </div>
