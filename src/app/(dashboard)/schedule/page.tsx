@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Clock, Dumbbell, CalendarDays, X } from "lucide-react";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/auth";
 
 // Mock data for available classes
 const availableClasses = [
@@ -45,16 +46,18 @@ const userBookings = [
     },
 ];
 
-export default function SchedulePage() {
+export default async function SchedulePage() {
+    const session = await requireAdmin();
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
-            <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen p-6 w-full">
+            <div className=" mx-auto">
                 <Card className="shadow-lg rounded-2xl border-0">
                     <CardHeader className="space-y-1">
                         <div className="flex items-center justify-between">
                             <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
                                 <CalendarDays className="h-8 w-8 text-blue-600" />
-                                Gym Schedule
+                                {session.user.name} Gym Schedule
                             </h1>
                             <Button asChild variant="default" className="gap-2">
                                 <Link href="/schedule/new">
