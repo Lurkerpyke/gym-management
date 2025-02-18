@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
   	extend: {
+		screens: {
+			xxs: "274px", // Breakpoint para telas muito pequenas
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

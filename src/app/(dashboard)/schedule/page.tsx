@@ -53,8 +53,8 @@ export default async function SchedulePage() {
         <div className="min-h-screen p-6 w-full">
             <div className=" mx-auto">
                 <Card className="shadow-lg rounded-2xl border-0">
-                    <CardHeader className="space-y-1">
-                        <div className="flex items-center justify-between">
+                    <CardHeader className="space-y-1 gap-5 text-center md:text-start">
+                        <div className="flex items-center justify-between gap-4 flex-col md:flex-row">
                             <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
                                 <CalendarDays className="h-8 w-8 text-blue-600" />
                                 {session.user.name} Gym Schedule
@@ -86,7 +86,7 @@ export default async function SchedulePage() {
                             {userBookings.map((booking) => (
                                 <Card key={booking.id} className="hover:shadow-md transition-shadow">
                                     <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex flex-col md:flex-row gap-4 items-center justify-between ">
                                             <div className="flex items-center gap-4">
                                                 <div className="p-3 bg-blue-50 rounded-full">
                                                     <Dumbbell className="h-6 w-6 text-blue-600" />
@@ -123,7 +123,7 @@ export default async function SchedulePage() {
                             {availableClasses.map((cls) => (
                                 <Card key={cls.id} className="hover:shadow-md transition-shadow">
                                     <CardContent className="p-4">
-                                        <div className="flex items-center justify-between">
+                                        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                                             <div className="flex items-center gap-4">
                                                 <div className="p-3 bg-blue-50 rounded-full">
                                                     <Dumbbell className="h-6 w-6 text-blue-600" />

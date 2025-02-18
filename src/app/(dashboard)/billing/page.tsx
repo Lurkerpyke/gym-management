@@ -27,7 +27,7 @@ export default function BillingPage() {
   ];
 
   return (
-    <div className="w-full h-full px-4 py-6 md:px-6">
+    <div className="w-full lg:w-[calc(100vw-16rem)] h-full px-4 py-6 md:px-6">
       {/* Header Section */}
       <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center mb-6">
         <div>
