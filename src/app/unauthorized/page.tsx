@@ -7,28 +7,28 @@ import Link from "next/link";
 
 export default function UnauthorizedPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+        <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
             <Card className="w-full max-w-md shadow-lg rounded-2xl border-0">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center justify-center text-red-500 mb-6">
                         <AlertTriangle className="h-16 w-16" />
                     </div>
-                    <h1 className="text-3xl font-bold text-center text-slate-800">
+                    <h1 className="text-3xl font-bold text-center text-secondary-foreground">
                         Acesso restrito
                     </h1>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                    <p className="text-slate-600 text-center">
+                    <p className="text-muted-foreground text-center">
                         Você não tem permissão para vizualisar essa página. Essa area é restrita apenas para membros ou staf da empresa.
                     </p>
 
-                    <div className="bg-slate-50 rounded-lg p-4 space-y-2">
+                    <div className="bg-secondary rounded-lg p-4 space-y-2">
                         <div className="flex items-center space-x-2 text-emerald-600">
                             <CheckCircle2 className="h-4 w-4" />
                             <span className="text-sm">Possiveis motivos:</span>
                         </div>
-                        <ul className="list-disc pl-6 text-sm text-slate-600 space-y-1">
+                        <ul className="list-disc pl-6 text-sm text-foreground space-y-1">
                             <li>Sua conta não possui privilégio de admin</li>
                             <li>Você ainda não é um membro da academia</li>
                             <li>Sua seção expirou, faça login novamente</li>

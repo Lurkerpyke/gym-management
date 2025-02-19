@@ -55,18 +55,18 @@ export default async function SchedulePage() {
                 <Card className="shadow-lg rounded-2xl border-0">
                     <CardHeader className="space-y-1 gap-5 text-center md:text-start">
                         <div className="flex items-center justify-between gap-4 flex-col md:flex-row">
-                            <h1 className="text-3xl font-bold text-slate-800 flex items-center gap-2">
-                                <CalendarDays className="h-8 w-8 text-blue-600" />
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
+                                <CalendarDays className="h-8 w-8 text-primary" />
                                 {session.user.name} Gym Schedule
                             </h1>
-                            <Button asChild variant="default" className="gap-2">
+                            <Button asChild variant="default" className="gap-2 bg-primary">
                                 <Link href="/schedule/new">
                                     <Plus className="h-4 w-4" />
                                     Add Class
                                 </Link>
                             </Button>
                         </div>
-                        <p className="text-slate-600">
+                        <p className="text-foreground">
                             View and manage your gym activities and classes.
                         </p>
                     </CardHeader>
@@ -79,7 +79,7 @@ export default async function SchedulePage() {
 
                         {/* User's Booked Classes */}
                         <div className="space-y-4">
-                            <h2 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+                            <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
                                 <Clock className="h-6 w-6 text-blue-600" />
                                 Your Booked Classes
                             </h2>
@@ -88,18 +88,18 @@ export default async function SchedulePage() {
                                     <CardContent className="p-4">
                                         <div className="flex flex-col md:flex-row gap-4 items-center justify-between ">
                                             <div className="flex items-center gap-4">
-                                                <div className="p-3 bg-blue-50 rounded-full">
-                                                    <Dumbbell className="h-6 w-6 text-blue-600" />
+                                                <div className="p-3 bg-secondary rounded-full">
+                                                    <Dumbbell className="h-6 w-6 text-primary" />
                                                 </div>
-                                                <div>
-                                                    <h3 className="font-semibold text-slate-800">
+                                                <div className="text-foreground">
+                                                    <h3 className="font-semibold">
                                                         {booking.class.name}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600">
+                                                    <p className="text-sm">
                                                         {booking.class.startTime.toLocaleTimeString()} -{" "}
                                                         {booking.class.endTime.toLocaleTimeString()}
                                                     </p>
-                                                    <p className="text-sm text-slate-500">
+                                                    <p className="text-sm">
                                                         Location: {booking.class.location}
                                                     </p>
                                                 </div>
@@ -116,7 +116,7 @@ export default async function SchedulePage() {
 
                         {/* Available Classes */}
                         <div className="space-y-4">
-                            <h2 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+                            <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
                                 <Dumbbell className="h-6 w-6 text-blue-600" />
                                 Available Classes
                             </h2>
@@ -124,19 +124,19 @@ export default async function SchedulePage() {
                                 <Card key={cls.id} className="hover:shadow-md transition-shadow">
                                     <CardContent className="p-4">
                                         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                                            <div className="flex items-center gap-4">
-                                                <div className="p-3 bg-blue-50 rounded-full">
+                                            <div className="flex items-center gap-4 text-foreground">
+                                                <div className="p-3 bg-secondary rounded-full">
                                                     <Dumbbell className="h-6 w-6 text-blue-600" />
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-semibold text-slate-800">
+                                                    <h3 className="font-semibold ">
                                                         {cls.name}
                                                     </h3>
-                                                    <p className="text-sm text-slate-600">
+                                                    <p className="text-sm">
                                                         {cls.startTime.toLocaleTimeString()} -{" "}
                                                         {cls.endTime.toLocaleTimeString()}
                                                     </p>
-                                                    <p className="text-sm text-slate-500">
+                                                    <p className="text-sm ">
                                                         Trainer: {cls.trainer} | Location: {cls.location}
                                                     </p>
                                                 </div>
