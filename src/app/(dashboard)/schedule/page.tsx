@@ -73,8 +73,8 @@ export default async function SchedulePage() {
 
                     <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Calendar Section */}
-                        <div className="bg-white p-4 rounded-lg shadow-sm border">
-                            <Calendar mode="single" className="rounded-md" />
+                        <div className="bg-background p-4 rounded-lg shadow-sm border">
+                            <Calendar mode="single" className="rounded-md bg-secondary" />
                         </div>
 
                         {/* User's Booked Classes */}

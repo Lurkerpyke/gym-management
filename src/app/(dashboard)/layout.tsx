@@ -19,11 +19,11 @@ export default function DashboardLayout({
 }) {
     return (
         <html lang="pt-br" suppressHydrationWarning>
-            <body className={cn("min-h-screen bg-background font-sans antialiased relative w-screen", inter.className)}>
+            <body className={cn("min-h-screen bg-background font-sans antialiased relative w-full overflow-x-hidden", inter.className)}>
                 <Header />
                 <SidebarProvider open={true}>
                     <AppSidebar />
-                    <main className="max-w-full">
+                    <main className="">
                         <SidebarTrigger />
                         {children}
                     </main>

@@ -1,19 +1,12 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/auth";
 
 export default async function AdminPage() {
-    const session = await getServerSession(authOptions);
-
-    // Se não estiver logado ou não for admin, redireciona
-    if (!session || session.user.role !== "admin") {
-        return redirect("/unauthorized"); // Página de acesso negado
-    }
+    const session = await requireAdmin();
 
     return (
         <div>
             <h1>Área Administrativa</h1>
-            <p>Bem-vindo, {session.user.name}!</p>
+            <p>Bem-vindo, admin {session.user.name}!</p>
         </div>
     );
 }

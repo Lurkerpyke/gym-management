@@ -10,7 +10,7 @@ export default function Home() {
       <section className="w-full relative">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/placeholder.svg"
+            src="/hero.jpg"
             alt="Gym interior"
             layout="fill"
             objectFit="cover"
@@ -69,42 +69,42 @@ export default function Home() {
                 instructor: "Mike Strong",
                 schedule: "Mon, Wed, Fri",
                 description: "Build strength and power with professional guidance",
-                image: "/placeholder.svg"
+                image: "/powerlift.jpg"
               },
               {
                 name: "Yoga Flow",
                 instructor: "Sarah Peace",
                 schedule: "Tue, Thu, Sat",
                 description: "Find balance and flexibility through mindful movement",
-                image: "/placeholder.svg"
+                image: "/yoga.jpg"
               },
               {
                 name: "HIIT Training",
                 instructor: "Jack Swift",
                 schedule: "Mon, Wed, Fri",
                 description: "High-intensity interval training for maximum results",
-                image: "/placeholder.svg"
+                image: "/hiit.jpg"
               },
               {
                 name: "Spin Class",
                 instructor: "Emma Ride",
                 schedule: "Tue, Thu, Sat",
                 description: "Cardio-intensive indoor cycling sessions",
-                image: "/placeholder.svg"
+                image: "/spin.jpg"
               },
               {
                 name: "CrossFit",
                 instructor: "Alex Power",
                 schedule: "Mon to Sat",
                 description: "Varied functional movements performed at high intensity",
-                image: "/placeholder.svg"
+                image: "/crossfit.jpg"
               },
               {
                 name: "Boxing",
                 instructor: "Tony Punch",
                 schedule: "Mon, Wed, Fri",
                 description: "Learn boxing techniques and improve your fitness",
-                image: "/placeholder.svg"
+                image: "/boxing.jpg"
               }
             ].map((classItem, index) => (
               <Card key={index} className="overflow-hidden">
