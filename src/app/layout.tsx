@@ -1,10 +1,11 @@
-import "./globals.css"
-import { Inter } from "next/font/google"
-import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/ui/theme-provider"
-import type React from "react"
-import Footer from "@/components/Footer"
-import Header from "@/components/Header"
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import type React from "react";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Providers from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,12 +23,14 @@ export default function RootLayout({
     <html lang="pt-br" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased overflow-x-hidden", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex flex-col min-h-screen">
-            
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <Providers>
+            <div className="flex flex-col min-h-screen">
+
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
