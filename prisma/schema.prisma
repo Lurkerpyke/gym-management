@@ -9,14 +9,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name         String?
-  email        String    @unique
-  emailVerified DateTime?
-  image        String?
-  role          String    @default("user")
-  accounts     Account[]
-  sessions     Session[]
+  id              String           @id @default(cuid())
+  name            String?
+  email           String           @unique
+  emailVerified   DateTime?
+  image           String?
+  role            String           @default("user")
+  accounts        Account[]
+  sessions        Session[]
+  metrics         UserMetrics? // Add this line
+  workoutSessions WorkoutSession[] // Add this line
 }
 
 model Account {
@@ -25,26 +27,48 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? 
-  access_token      String? 
-  expires_at        Int? 
-  token_type        String? 
-  scope             String? 
-  id_token          String? 
-  session_state     String? 
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])  // <- Adiciona a restrição única corretamente
+  @@unique([provider, providerAccountId]) // <- Adiciona a restrição única corretamente
 }
-
 
 model Session {
-  id            String   @id @default(cuid())  // Alterado para String
-  userId        String
-  expires       DateTime
-  sessionToken  String   @unique
-  user          User     @relation(fields: [userId], references: [id])
+  id           String   @id @default(cuid()) // Alterado para String
+  userId       String
+  expires      DateTime
+  sessionToken String   @unique
+  user         User     @relation(fields: [userId], references: [id])
 }
 
+model UserMetrics {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  currentWeight   Float
+  goalWeight      Float
+  bodyFat         Float
+  muscleMass      Float
+  lastMeasurement DateTime
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
 
+model WorkoutSession {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  title       String
+  description String?
+  date        DateTime
+  duration    Int // Duration in minutes
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

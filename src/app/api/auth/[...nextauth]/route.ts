@@ -7,14 +7,6 @@ import { JWT } from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
-// Database connection (keep your existing setup)
-prisma.$connect().then(() => {
-    console.log('Prisma connected successfully');
-}).catch((err: any) => {
-    console.error('Prisma connection error:', err);
-});
-
-// Define os tipos corretamente
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
@@ -38,33 +30,35 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }: { token: JWT; user?: any; trigger?: string }) {
             if (user) {
                 try {
-                    // Tentar obter o papel do banco de dados
+                    // Add the user ID to the token
+                    token.id = user.id;
+                    // Fetch the user's role from the database
                     const dbUser = await prisma.user.findUnique({
-                        where: { email: user.email }, // Procurar pelo email
-                        select: { role: true }
+                        where: { email: user.email },
+                        select: { role: true },
                     });
-                    // Add this line to set the role in the token
-                    token.role = dbUser?.role || 'user';
+                    // Add the role to the token
+                    token.role = dbUser?.role || "user";
                 } catch (err) {
-                    console.error('Erro ao buscar o papel do usuário:', err);
+                    console.error("Error fetching user role:", err);
                 }
             }
             return token;
-        }
-,
+        },
         async session({ session, token }: { session: Session; token: JWT }) {
             if (session.user) {
+                // Add the user ID and role to the session
+                session.user.id = token.id as string;
                 session.user.role = token.role as string;
             }
             return session;
-        }
-
+        },
     },
     events: {
         async signIn({ user }: { user: any }) {
-            console.log(`Usuário ${user.email} fez login com o papel ${user.role || 'sem papel'}`);
-        }
-    }
+            console.log(`User ${user.email} logged in with role ${user.role || "no role"}`);
+        },
+    },
 };
 
 const handler = NextAuth(authOptions);
