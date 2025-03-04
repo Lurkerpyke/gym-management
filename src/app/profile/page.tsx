@@ -8,6 +8,9 @@ import { Separator } from "@/components/ui/separator";
 import { Weight, HeartPulse, Dumbbell, CalendarCheck, User } from "lucide-react";
 import UpdateMetricsDrawer from "@/components/UpdateMetricsDrawer";
 import { redirect } from "next/navigation";
+import WorkoutSessionDrawer from '@/components/WorkoutSessionDrawer';
+import { toast } from "sonner";
+import DeleteSessionButton from "@/components/ui/DeleteSessionButton";
 
 export default async function ProfilePage() {
     const session = await getServerSession(authOptions);
@@ -82,7 +85,10 @@ export default async function ProfilePage() {
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Upcoming Sessions</CardTitle>
-                    <CalendarCheck className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex items-center gap-2">
+                        <CalendarCheck className="h-4 w-4 text-muted-foreground" />
+                        <WorkoutSessionDrawer />
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
@@ -93,8 +99,14 @@ export default async function ProfilePage() {
                                     <p className="text-sm text-muted-foreground">
                                         {new Date(session.date).toLocaleString()}
                                     </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        Duration: {session.duration} minutes
+                                    </p>
                                 </div>
-                                <Button variant="outline">Details</Button>
+                                <div className="flex gap-2">
+                                    <WorkoutSessionDrawer session={session} />
+                                    <DeleteSessionButton sessionId={session.id} />
+                                </div>
                             </div>
                         ))}
                     </div>
