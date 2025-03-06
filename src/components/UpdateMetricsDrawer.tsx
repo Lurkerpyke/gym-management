@@ -49,7 +49,7 @@ export default function UpdateMetricsDrawer({ metrics }: UpdateMetricsDrawerProp
         <Drawer>
             <DrawerTrigger asChild>
                 <Button variant="default" className="w-full md:w-auto">
-                    <Goal className="mr-2 h-4 w-4" /> Update Fitness Goals
+                    <Goal className="mr-2 h-4 w-4" /> Atualize suas métricas
                 </Button>
             </DrawerTrigger>
 

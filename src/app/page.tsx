@@ -2,10 +2,14 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react"
+import features, { Feature } from "@/app/data/featuresData"
+import testimonials, { Testimonial } from "./data/testimonialsData"
+import gymClasses, { GymClass } from "./data/classesData"
+import pricingPlans, { PricingPlan } from "./data/pricingData"
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen max-w-[100vw] overflow-x-hidden">
       {/* Hero Section */}
       <section className="w-full relative">
         <div className="absolute inset-0 z-0">
@@ -22,16 +26,16 @@ export default function Home() {
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-white">
-                Manage Your Gym with Ease
+                Gerencie sua academia com facilidade
               </h1>
               <p className="mx-auto max-w-[700px] text-white/90 md:text-xl">
-                Streamline operations, boost member engagement, and grow your fitness business with GymPro.
+                Simplifique as operações, aumente o engajamento dos membros e faça seu negócio de fitness crescer com o GymPro.
               </p>
             </div>
-            <div className="space-x-4">
-              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-white/90 hover:text-primary">Get Started</Button>
-              <Button className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary m-0">
-                Learn More
+            <div className="flex flex-col md:flex-row md:space-x-10 justify-center items-center gap-4 text-center">
+              <Button className="bg-primary-foreground text-secondary-foreground hover:bg-white/90 hover:text-primary">Comece agora</Button>
+              <Button className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary">
+                Saiba mais
               </Button>
             </div>
           </div>
@@ -41,15 +45,15 @@ export default function Home() {
       {/* Features Section */}
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">Features</h2>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">Benefícios</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {["Member Management", "Class Scheduling", "Billing & Payments"].map((feature, index) => (
+            {features.map((feature: Feature, index: number) => (
               <Card key={index} className="flex flex-col items-center text-center">
                 <CardHeader>
-                  <CardTitle>{feature}</CardTitle>
+                  <CardTitle>{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>Efficiently manage all aspects of your gym with our intuitive tools.</p>
+                  <p>{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -60,53 +64,10 @@ export default function Home() {
       <section className="w-full py-12 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-            Our Classes
+            Nossas Aulas
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Power Lifting",
-                instructor: "Mike Strong",
-                schedule: "Mon, Wed, Fri",
-                description: "Build strength and power with professional guidance",
-                image: "/powerlift.jpg"
-              },
-              {
-                name: "Yoga Flow",
-                instructor: "Sarah Peace",
-                schedule: "Tue, Thu, Sat",
-                description: "Find balance and flexibility through mindful movement",
-                image: "/yoga.jpg"
-              },
-              {
-                name: "HIIT Training",
-                instructor: "Jack Swift",
-                schedule: "Mon, Wed, Fri",
-                description: "High-intensity interval training for maximum results",
-                image: "/hiit.jpg"
-              },
-              {
-                name: "Spin Class",
-                instructor: "Emma Ride",
-                schedule: "Tue, Thu, Sat",
-                description: "Cardio-intensive indoor cycling sessions",
-                image: "/spin.jpg"
-              },
-              {
-                name: "CrossFit",
-                instructor: "Alex Power",
-                schedule: "Mon to Sat",
-                description: "Varied functional movements performed at high intensity",
-                image: "/crossfit.jpg"
-              },
-              {
-                name: "Boxing",
-                instructor: "Tony Punch",
-                schedule: "Mon, Wed, Fri",
-                description: "Learn boxing techniques and improve your fitness",
-                image: "/boxing.jpg"
-              }
-            ].map((classItem, index) => (
+            {gymClasses.map((classItem: GymClass, index: number) => (
               <Card key={index} className="overflow-hidden">
                 <CardHeader>
                   <div className="h-48 relative mb-4">
@@ -121,13 +82,13 @@ export default function Home() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <p className="font-medium">Instructor: {classItem.instructor}</p>
-                    <p className="text-sm text-muted-foreground">Schedule: {classItem.schedule}</p>
+                    <p className="font-medium">Instrutor: {classItem.instructor}</p>
+                    <p className="text-sm text-muted-foreground">Horário: {classItem.schedule}</p>
                     <p className="text-sm">{classItem.description}</p>
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Book Class</Button>
+                  <Button className="w-full">Agendar Aula</Button>
                 </CardFooter>
               </Card>
             ))}
@@ -140,21 +101,10 @@ export default function Home() {
       <section className="w-full py-12 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-            What Our Clients Say
+            O que nossos cliente dizem
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              {
-                name: "John Doe",
-                role: "Gym Owner",
-                quote: "GymPro has revolutionized how we manage our gym. It's a game-changer!",
-              },
-              {
-                name: "Jane Smith",
-                role: "Fitness Trainer",
-                quote: "The class scheduling feature saves me hours every week. Highly recommended!",
-              },
-            ].map((testimonial, index) => (
+            {testimonials.map((testimonial: Testimonial, index: number) => (
               <Card key={index}>
                 <CardHeader>
                   <CardTitle>{testimonial.name}</CardTitle>
@@ -173,26 +123,14 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 bg-muted" id="pricing">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-            Pricing Plans
+            Planos de Preços
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { name: "Basic", price: "$49", features: ["Member Management", "Class Scheduling", "Basic Reporting"] },
-              {
-                name: "Pro",
-                price: "$99",
-                features: ["All Basic Features", "Advanced Reporting", "Integrated Payments"],
-              },
-              {
-                name: "Enterprise",
-                price: "Custom",
-                features: ["All Pro Features", "Dedicated Support", "Custom Integrations"],
-              },
-            ].map((plan, index) => (
+            {pricingPlans.map((plan: PricingPlan, index: number) => (
               <Card key={index} className="flex flex-col">
                 <CardHeader>
                   <CardTitle>{plan.name}</CardTitle>
-                  <CardDescription className="text-2xl font-bold">{plan.price}/mo</CardDescription>
+                  <CardDescription className="text-2xl font-bold">{plan.price}/mês</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <ul className="space-y-2">
@@ -205,7 +143,7 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full">Choose Plan</Button>
+                  <Button className="w-full">Escolher Plano</Button>
                 </CardFooter>
               </Card>
             ))}
@@ -219,19 +157,19 @@ export default function Home() {
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Ready to Transform Your Gym?
+                Pronto para Transformar Sua Academia?
               </h2>
               <p className="mx-auto max-w-[600px] text-primary-foreground/90 md:text-xl">
-                Join thousands of satisfied gym owners and start optimizing your business today.
+                Junte-se a milhares de proprietários de academias satisfeitos e comece a otimizar seu negócio hoje mesmo.
               </p>
             </div>
             <div className="space-x-4">
-              <Button className="bg-background text-primary hover:bg-background/90" variant="outline">Start Free Trial</Button>
+              <Button className="bg-background text-primary hover:bg-background/90" variant="outline">Comece Grátis</Button>
               <Button
                 variant="outline"
                 className="bg-background text-primary hover:bg-background/90"
               >
-                Contact Sales
+                Entrar em Contato
               </Button>
             </div>
           </div>

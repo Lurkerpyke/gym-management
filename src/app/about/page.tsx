@@ -36,7 +36,7 @@ export default function AboutPage() {
             image: "/sarah.webp"
         },
         {
-            name: "Emily Rodriguez",
+            name: "Emily Letícia",
             role: "Yoga Master",
             bio: "5000+ hours of teaching experience",
             image: "/emily.webp"

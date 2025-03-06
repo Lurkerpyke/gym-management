@@ -2,14 +2,12 @@ import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Weight, HeartPulse, Dumbbell, CalendarCheck, User } from "lucide-react";
 import UpdateMetricsDrawer from "@/components/UpdateMetricsDrawer";
 import { redirect } from "next/navigation";
 import WorkoutSessionDrawer from '@/components/WorkoutSessionDrawer';
-import { toast } from "sonner";
 import DeleteSessionButton from "@/components/ui/DeleteSessionButton";
 
 export default async function ProfilePage() {
@@ -50,7 +48,7 @@ export default async function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Current Weight</CardTitle>
+                        <CardTitle className="text-sm font-medium">Peso Atual</CardTitle>
                         <Weight className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -60,7 +58,7 @@ export default async function ProfilePage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Body Fat</CardTitle>
+                        <CardTitle className="text-sm font-medium">Gordura Corporal</CardTitle>
                         <HeartPulse className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -70,7 +68,7 @@ export default async function ProfilePage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Muscle Mass</CardTitle>
+                        <CardTitle className="text-sm font-medium">Massa muscular</CardTitle>
                         <Dumbbell className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -84,7 +82,7 @@ export default async function ProfilePage() {
             {/* Workout Schedule Section */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Upcoming Sessions</CardTitle>
+                    <CardTitle className="text-sm font-medium">Proximos treinos</CardTitle>
                     <div className="flex items-center gap-2">
                         <CalendarCheck className="h-4 w-4 text-muted-foreground" />
                         <WorkoutSessionDrawer />

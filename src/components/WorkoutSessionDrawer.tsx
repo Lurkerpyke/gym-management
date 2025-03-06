@@ -56,8 +56,8 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
                         "Edit"
                     ) : (
                         <>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Session
+                            <Plus className=" h-4 w-4" />
+                            Adicionar novo treino
                         </>
                     )}
                 </Button>
@@ -66,12 +66,12 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
             <DrawerContent className="max-h-[90vh]">
                 <div className="mx-auto w-full max-w-md p-6">
                     <DrawerHeader>
-                        <DrawerTitle>{session?.id ? 'Edit' : 'New'} Workout Session</DrawerTitle>
+                        <DrawerTitle>{session?.id ? 'Editar' : 'Nova'} Sessão de treino</DrawerTitle>
                     </DrawerHeader>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="title">Title *</Label>
+                            <Label htmlFor="title">Título *</Label>
                             <Input
                                 id="title"
                                 value={title}
@@ -81,7 +81,7 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
+                            <Label htmlFor="description">Descrição</Label>
                             <Input
                                 id="description"
                                 value={description}
@@ -90,7 +90,7 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="date">Date & Time *</Label>
+                            <Label htmlFor="date">Data e Hora *</Label>
                             <Input
                                 id="date"
                                 type="datetime-local"
@@ -101,7 +101,7 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="duration">Duration (minutes) *</Label>
+                            <Label htmlFor="duration">Duração (minutos) *</Label>
                             <Input
                                 id="duration"
                                 type="number"

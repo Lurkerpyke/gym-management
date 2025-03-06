@@ -5,6 +5,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req });
     const { pathname } = req.nextUrl;
+    const session = req.cookies.get('next-auth.session-token')
 
     // Protected routes configuration
     const adminRoutes = ["/admin"];
@@ -19,6 +20,12 @@ export async function middleware(req: NextRequest) {
     if (adminRoutes.some((p) => pathname.startsWith(p))) {
         if (token?.role !== "admin") {
             return NextResponse.redirect(new URL("/unauthorized", req.url));
+        }
+    }
+
+    if (req.nextUrl.pathname.startsWith('/owner')) {
+        if (!session) {
+            return NextResponse.redirect(new URL('/signin', req.url))
         }
     }
 
