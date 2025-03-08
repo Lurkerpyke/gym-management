@@ -6,6 +6,7 @@ import type React from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Providers from "@/components/providers";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,6 +29,7 @@ export default function RootLayout({
 
               <Header />
               <main className="flex-1 w-[100vw]">{children}</main>
+              <Toaster richColors position="top-center" />
               <Footer />
             </div>
           </Providers>

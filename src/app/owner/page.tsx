@@ -4,10 +4,20 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Activity, AlertCircle, Bell, Dumbbell, HeartPulse, LayoutDashboard, Users, Weight } from "lucide-react";
+import { Activity, AlertCircle, Bell, Dumbbell, LayoutDashboard, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { QuickActionButton } from "@/components/QuickActionButton";
+import { ActivityItem } from "@/components/ActivityItem";
+import { ActivityLog } from "@prisma/client";
+
+type ActivityWithUser = ActivityLog & {
+    user: {
+        name: string | null;
+        image: string | null;
+    };
+};
 
 export default async function OwnerPage() {
     const session = await getServerSession(authOptions);
@@ -22,6 +32,7 @@ export default async function OwnerPage() {
         activeUsers,
         newRegistrations,
         workoutStats,
+        recentActivities,
         systemHealth
     ] = await Promise.all([
         prisma.user.count(),
@@ -37,8 +48,20 @@ export default async function OwnerPage() {
             _avg: { duration: true },
             _sum: { duration: true }
         }),
-        prisma.$queryRaw`SELECT 1 as status` // Simple database health check
+        prisma.activityLog.findMany({
+            take: 5,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: { name: true, image: true }
+                }
+            }
+        }) as Promise<ActivityWithUser[]>,
+        prisma.$queryRaw<{ status: number }[]>`SELECT 1 as status`
     ]);
+
+    // Add type assertion for system health
+    const isSystemHealthy = (systemHealth as { status: number }[]).length > 0;
 
     return (
         <div className="container mx-auto p-4 space-y-6">
@@ -56,7 +79,7 @@ export default async function OwnerPage() {
                         <p className="text-muted-foreground">Welcome back, {session.user.name}</p>
                     </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col md:flex-row gap-2">
                     <Button variant="outline" asChild>
                         <Link href="/owner/users">
                             <Users className="mr-2 h-4 w-4" />
@@ -140,31 +163,21 @@ export default async function OwnerPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Activity className="h-5 w-5" />
-                        Recent Activity
+                        Atividades Recentes
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="space-y-4">
-                        {/* Example activity items - implement with real data */}
-                        <div className="flex items-center justify-between p-2">
-                            <div className="flex items-center gap-2">
-                                <div className="h-2 w-2 rounded-full bg-green-500" />
-                                <span className="text-sm">System check passed</span>
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                                2 minutes ago
-                            </span>
+                <CardContent className="divide-y">
+                    {recentActivities.map((activity) => (
+                        <ActivityItem
+                            key={activity.id}
+                            activity={activity}
+                        />
+                    ))}
+                    {recentActivities.length === 0 && (
+                        <div className="p-4 text-center text-muted-foreground">
+                            Nenhuma atividade recente
                         </div>
-                        <div className="flex items-center justify-between p-2">
-                            <div className="flex items-center gap-2">
-                                <div className="h-2 w-2 rounded-full bg-blue-500" />
-                                <span className="text-sm">New user registered</span>
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                                15 minutes ago
-                            </span>
-                        </div>
-                    </div>
+                    )}
                 </CardContent>
             </Card>
 
@@ -173,26 +186,30 @@ export default async function OwnerPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <LayoutDashboard className="h-5 w-5" />
-                        Quick Actions
+                        Ações Rápidas
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center">
-                        <Users className="h-6 w-6 mb-2" />
-                        <span className="text-sm">Add New User</span>
-                    </Button>
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center">
-                        <Bell className="h-6 w-6 mb-2" />
-                        <span className="text-sm">Send Notification</span>
-                    </Button>
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center">
-                        <Activity className="h-6 w-6 mb-2" />
-                        <span className="text-sm">Generate Report</span>
-                    </Button>
-                    <Button variant="outline" className="h-24 flex flex-col items-center justify-center">
-                        <AlertCircle className="h-6 w-6 mb-2" />
-                        <span className="text-sm">System Settings</span>
-                    </Button>
+                <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <QuickActionButton
+                        icon="users"
+                        label="Adicionar Usuário"
+                        actionType="add-user"
+                    />
+                    <QuickActionButton
+                        icon="bell"
+                        label="Enviar Notificação"
+                        actionType="send-notification"
+                    />
+                    <QuickActionButton
+                        icon="activity"
+                        label="Gerar Relatório"
+                        actionType="generate-report"
+                    />
+                    <QuickActionButton
+                        icon="alertCircle"
+                        label="Configurações"
+                        actionType="system-settings"
+                    />
                 </CardContent>
             </Card>
         </div>

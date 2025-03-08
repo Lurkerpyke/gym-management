@@ -20,6 +20,9 @@ model User {
   sessions        Session[]
   metrics         UserMetrics?
   workoutSessions WorkoutSession[]
+  activityLogs    ActivityLog[]    @relation("UserActivity")
+  targetedLogs    ActivityLog[]    @relation("TargetUserRelation")
+  notifications Notification[]
 }
 
 model Account {
@@ -72,4 +75,43 @@ model WorkoutSession {
   duration    Int // Duration in minutes
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum ActivityType {
+  USER_LOGIN
+  PROFILE_UPDATE
+  WORKOUT_CREATED
+  ROLE_CHANGE
+  SYSTEM_EVENT
+}
+
+model ActivityLog {
+  id          String      @id @default(cuid())
+  userId      String
+  targetUserId String?
+  actionType  ActivityType
+  description String
+  createdAt   DateTime    @default(now())
+  metadata    Json?
+
+  user        User        @relation(fields: [userId], references: [id], name: "UserActivity")
+  targetUser  User?       @relation(fields: [targetUserId], references: [id], name: "TargetUserRelation")
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([actionType])
+}
+
+model Notification {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  title       String
+  message     String
+  isRead      Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  type        String    @default("info")
+
+  @@index([userId])
+  @@index([createdAt])
 }
