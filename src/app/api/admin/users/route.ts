@@ -96,3 +96,50 @@ export async function PATCH(req: Request) {
         );
     }
 }
+
+// app/api/admin/users/route.ts
+export async function DELETE(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (session?.user?.role !== 'owner') {
+            return NextResponse.json(
+                { error: 'Acesso não autorizado' },
+                { status: 403 }
+            );
+        }
+
+        const { email } = await req.json();
+
+        if (!email) {
+            return NextResponse.json(
+                { error: 'Email é obrigatório' },
+                { status: 400 }
+            );
+        }
+
+        // Prevent deleting own account
+        if (email === session.user.email) {
+            return NextResponse.json(
+                { error: 'Você não pode deletar sua própria conta' },
+                { status: 400 }
+            );
+        }
+
+        const deletedUser = await prisma.user.delete({
+            where: { email }
+        });
+
+        return NextResponse.json({
+            success: true,
+            message: `Usuário ${email} deletado com sucesso`
+        });
+
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        return NextResponse.json(
+            { error: 'Erro ao deletar usuário' },
+            { status: 500 }
+        );
+    }
+}

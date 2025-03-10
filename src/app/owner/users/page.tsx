@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { DataTable } from '@/components/ui/data-table'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreHorizontal } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -54,6 +54,7 @@ const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             const user = row.original
             const [loading, setLoading] = useState(false)
+            const { data: session } = useSession()
 
             const updateRole = async (newRole: string) => {
                 setLoading(true)
@@ -69,6 +70,28 @@ const columns: ColumnDef<User>[] = [
                     toast.success(`${user.email}'s role updated to ${newRole}`)
                 } catch (error) {
                     toast.error('Failed to update role')
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+            const deleteUser = async () => {
+                if (!window.confirm(`Tem certeza que deseja deletar ${user.email}?`)) return
+
+                setLoading(true)
+                try {
+                    const response = await fetch('/api/admin/users', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: user.email })
+                    })
+
+                    if (!response.ok) throw new Error('Failed to delete user')
+
+                    toast.success(`Usuário ${user.email} deletado`)
+                    // setUsers(prev => prev.filter(u => u.email !== user.email))
+                } catch (error) {
+                    toast.error('Falha ao deletar usuário')
                 } finally {
                     setLoading(false)
                 }
@@ -99,6 +122,14 @@ const columns: ColumnDef<User>[] = [
                             disabled={loading || user.role === 'owner'}
                         >
                             Make Owner
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={deleteUser}
+                            disabled={loading || user.email === session?.user?.email}
+                            className="text-destructive focus:bg-destructive/10"
+                        >
+                            Deletar Usuário
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
