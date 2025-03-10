@@ -23,7 +23,7 @@ export default async function OwnerPage() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.id || session.user.role !== 'owner') {
-        return redirect("/");
+        return redirect("/unauthorized");
     }
 
     // Get statistics for the dashboard

@@ -16,7 +16,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const { email, role } = await req.json();
+        const { email, role, name } = await req.json();
 
         // Validation
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -50,6 +50,7 @@ export async function POST(req: Request) {
             data: {
                 email,
                 role,
+                name,
                 // Add other default fields from your schema
             }
         });
@@ -59,7 +60,8 @@ export async function POST(req: Request) {
             user: {
                 id: newUser.id,
                 email: newUser.email,
-                role: newUser.role
+                role: newUser.role,
+                name: newUser.name
             }
         });
 

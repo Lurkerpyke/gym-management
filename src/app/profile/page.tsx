@@ -9,6 +9,8 @@ import UpdateMetricsDrawer from "@/components/UpdateMetricsDrawer";
 import { redirect } from "next/navigation";
 import WorkoutSessionDrawer from '@/components/WorkoutSessionDrawer';
 import DeleteSessionButton from "@/components/ui/DeleteSessionButton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function ProfilePage() {
     const session = await getServerSession(authOptions);
@@ -29,16 +31,27 @@ export default async function ProfilePage() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             {/* Profile Header */}
-            <div className="flex flex-col md:flex-row items-center gap-6">
-                <Avatar className="h-24 w-24">
-                    <AvatarImage src={session.user.image || ""} />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                        <User className="h-12 w-12" />
-                    </AvatarFallback>
-                </Avatar>
-                <div className="space-y-1 text-center md:text-left">
-                    <h1 className="text-2xl font-bold">{session.user.name}</h1>
-                    <p className="text-muted-foreground">{session.user.email}</p>
+            <div className="flex flex-col md:flex-row items-center gap-6 justify-between px-4">
+                <div className="flex items-center gap-5">
+                    <Avatar className="h-24 w-24">
+                        <AvatarImage src={session.user.image || ""} />
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                            <User className="h-12 w-12" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1 text-center md:text-left">
+                        <h1 className="text-2xl font-bold">{session.user.name}</h1>
+                        <p className="text-muted-foreground">{session.user.email}</p>
+                    </div>
+                </div>
+                <div>
+                    {session.user.role === "owner" && (
+                        <Button variant="outline" asChild>
+                            <Link href="/owner">
+                                Owner Dashboard
+                            </Link>
+                        </Button>
+                    )}
                 </div>
             </div>
 

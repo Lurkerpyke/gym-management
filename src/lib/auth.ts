@@ -13,3 +13,15 @@ export async function requireAdmin() {
 
     return session; // Retorna a sessão caso seja admin
 }
+
+export async function requireOwner() {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) return redirect("/signin");
+    if (session.user.role !== "owner") {
+        return redirect("/unauthorized");
+    }
+
+
+    return session; // Retorna a sessão caso seja admin
+}

@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
     const token = await getToken({ req });
     const { pathname } = req.nextUrl;
     const session = req.cookies.get('next-auth.session-token');
-    const path = req.nextUrl.pathname;
+    // const path = req.nextUrl.pathname;
 
     // Protected routes configuration
     const adminRoutes = ["/admin"];
