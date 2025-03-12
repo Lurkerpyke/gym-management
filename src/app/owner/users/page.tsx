@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 type User = {
     id: string
@@ -180,8 +181,13 @@ export default function OwnerManagement() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <Card>
-                <CardHeader>
+                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                     <CardTitle>User Management</CardTitle>
+                    <Button variant="outline" asChild>
+                        <Link href="/owner">
+                            Voltar para o Dashboard
+                        </Link>
+                    </Button>
                 </CardHeader>
                 <CardContent>
                     <DataTable

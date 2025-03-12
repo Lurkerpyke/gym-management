@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
     const token = await getToken({ req });
     const { pathname } = req.nextUrl;
     const session = req.cookies.get('next-auth.session-token');
-    // const path = req.nextUrl.pathname;
+    const path = req.nextUrl.pathname;
 
     // Protected routes configuration
     const adminRoutes = ["/admin"];
@@ -27,6 +27,13 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/owner')) {
         if (!session) {
             return NextResponse.redirect(new URL('/signin', req.url))
+        }
+    }
+
+    if (path.startsWith('/posts')) {
+        const session = req.cookies.get('next-auth.session-token');
+        if (!session) {
+            return NextResponse.redirect(new URL('/signin', req.url));
         }
     }
 

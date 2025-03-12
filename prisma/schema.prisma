@@ -15,14 +15,16 @@ model User {
   emailVerified   DateTime?
   image           String?
   role            String           @default("user")
-  createdAt       DateTime         @default(now())  // Add this line
+  createdAt       DateTime         @default(now()) // Add this line
   accounts        Account[]
   sessions        Session[]
   metrics         UserMetrics?
   workoutSessions WorkoutSession[]
   activityLogs    ActivityLog[]    @relation("UserActivity")
   targetedLogs    ActivityLog[]    @relation("TargetUserRelation")
-  notifications Notification[]
+  notifications   Notification[]
+  posts           Post[]
+  comments        Comment[]
 }
 
 model Account {
@@ -86,16 +88,16 @@ enum ActivityType {
 }
 
 model ActivityLog {
-  id          String      @id @default(cuid())
-  userId      String
+  id           String       @id @default(cuid())
+  userId       String
   targetUserId String?
-  actionType  ActivityType
-  description String
-  createdAt   DateTime    @default(now())
-  metadata    Json?
+  actionType   ActivityType
+  description  String
+  createdAt    DateTime     @default(now())
+  metadata     Json?
 
-  user        User        @relation(fields: [userId], references: [id], name: "UserActivity")
-  targetUser  User?       @relation(fields: [targetUserId], references: [id], name: "TargetUserRelation")
+  user       User  @relation(fields: [userId], references: [id], name: "UserActivity")
+  targetUser User? @relation(fields: [targetUserId], references: [id], name: "TargetUserRelation")
 
   @@index([userId])
   @@index([createdAt])
@@ -103,15 +105,45 @@ model ActivityLog {
 }
 
 model Notification {
-  id          String    @id @default(cuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
-  title       String
-  message     String
-  isRead      Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  type        String    @default("info")
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  type      String   @default("info")
 
   @@index([userId])
   @@index([createdAt])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  mediaUrl    String?
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  postType    String    @default("text")
+  categories  String[]
+  scheduledAt DateTime?
+  publishedAt DateTime?
+  reactions   Json?
+  comments    Comment[]
+
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime @default(now())
 }

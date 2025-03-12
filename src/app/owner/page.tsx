@@ -86,9 +86,11 @@ export default async function OwnerPage() {
                             Manage Users
                         </Link>
                     </Button>
-                    <Button variant="outline">
-                        <Bell className="mr-2 h-4 w-4" />
-                        Send Announcement
+                    <Button variant="outline" asChild>
+                        <Link href="/posts">
+                            <Bell className="h-4 w-4" />
+                            Send Announcement
+                        </Link>
                     </Button>
                 </div>
             </div>
