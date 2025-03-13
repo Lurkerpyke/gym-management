@@ -102,7 +102,7 @@ export default function PostsPage() {
             </div>
 
             {/* Posts Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start auto-rows-[minmax(400px,auto)]">
                 {loading ? (
                     Array.from({ length: 3 }).map((_, i) => (
                         <Card key={i} className="animate-pulse">
@@ -123,7 +123,7 @@ export default function PostsPage() {
                     ))
                 ) : posts.length > 0 ? (
                     posts.map((post) => (
-                        <Card key={post.id} className="hover:shadow-lg transition-shadow flex flex-col">
+                        <Card key={post.id} className="hover:shadow-lg transition-shadow flex flex-col min-h-full">
                             {/* Author Section */}
                             <CardHeader className="flex flex-row items-center gap-4 pb-4">
                                 <Avatar className="h-12 w-12 border-2 border-primary">
@@ -141,11 +141,11 @@ export default function PostsPage() {
                             </CardHeader>
 
                             {/* Post Content */}
-                            <CardContent className="flex-1 space-y-4">
+                            <CardContent className="flex-1 space-y-4 flex flex-col">
                                 <h2 className="text-xl font-bold text-primary">{post.title}</h2>
 
                                 {post.mediaUrl && (
-                                    <div className="relative aspect-video rounded-xl overflow-hidden border">
+                                    <div className="relative max-w-full max-h-[200px] mx-auto rounded-xl overflow-hidden border">
                                         {post.postType === 'image' ? (
                                             <img
                                                 src={post.mediaUrl}
@@ -154,11 +154,7 @@ export default function PostsPage() {
                                                 loading="lazy"
                                             />
                                         ) : (
-                                            <video
-                                                controls
-                                                className="w-full h-full"
-                                                key={post.mediaUrl}
-                                            >
+                                            <video controls className="w-full h-full" key={post.mediaUrl}>
                                                 <source src={post.mediaUrl} type="video/mp4" />
                                                 <source src={post.mediaUrl} type="video/webm" />
                                                 Your browser does not support the video tag.
@@ -167,13 +163,15 @@ export default function PostsPage() {
                                     </div>
                                 )}
 
-                                <div
-                                    className="prose prose-sm dark:prose-invert max-w-none break-words whitespace-pre-wrap"
-                                    dangerouslySetInnerHTML={{ __html: post.content }}
-                                />
+                                <div className="flex-1 overflow-y-auto">
+                                    <div
+                                        className="prose prose-sm dark:prose-invert max-w-none break-words whitespace-pre-wrap max-h-[200px] overflow-y-auto"
+                                        dangerouslySetInnerHTML={{ __html: post.content }}
+                                    />
+                                </div>
 
                                 {post.categories && (
-                                    <div className="flex flex-wrap gap-2">
+                                    <div className="flex flex-wrap gap-2 mt-2">
                                         {post.categories.map((category) => (
                                             <Badge
                                                 key={category}
@@ -188,7 +186,7 @@ export default function PostsPage() {
                             </CardContent>
 
                             {/* Reactions & Comments */}
-                            <CardFooter className="border-t p-4 pt-4">
+                            <CardFooter className="border-t p-4 pt-4 mt-auto">
                                 <div className="flex w-full items-center justify-between">
                                     <div className="flex gap-2">
                                         <Button
