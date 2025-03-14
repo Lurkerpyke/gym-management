@@ -10,7 +10,22 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
-import { MegaphoneIcon, PlusCircleIcon } from 'lucide-react';
+import { MegaphoneIcon, MessageCircleIcon, PlusCircleIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { comment } from 'postcss';
+
+type Comment = {
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+        id: string;
+        name?: string;
+        image?: string;
+    };
+};
 
 type Post = {
     id: string;
@@ -37,9 +52,61 @@ export default function PostsPage() {
     const router = useRouter();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingComments, setIsLoadingComments] = useState(false);
+    const [selectedMedia, setSelectedMedia] = useState<{ url: string; type: string } | null>(null);
+
+    const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [commentOpen, setCommentOpen] = useState(false);
+    const { register, handleSubmit, reset } = useForm<{ content: string }>();
 
 
-    // Redirect unauthenticated users
+
+    const fetchComments = async (postId: string) => {
+        try {
+            setIsLoadingComments(true);
+            const response = await fetch(`/api/posts/${postId}/comments?${Date.now()}`);
+            const data = await response.json();
+            setComments(data);
+        } catch (error) {
+            console.error('Failed to load comments:', error);
+        } finally {
+            setIsLoadingComments(false);
+        }
+    };
+
+    const handleCommentSubmit = async (data: { content: string }) => {
+        if (!selectedPostId || !session?.user?.id) return;
+
+        try {
+            const response = await fetch(`/api/posts/${selectedPostId}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...data,
+                    authorId: session.user.id
+                })
+            });
+
+            if (response.ok) {
+                const newComment = await response.json();
+                setComments(prev => [newComment, ...prev]);
+                setPosts(prevPosts => prevPosts.map(post => {
+                    if (post.id === selectedPostId) {
+                        return {
+                            ...post,
+                            comments: [newComment, ...(post.comments || [])]
+                        };
+                    }
+                    return post;
+                }));
+                reset();
+            }
+        } catch (error) {
+            console.error('Failed to post comment:', error);
+        }
+    };
+
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/signin');
@@ -51,15 +118,12 @@ export default function PostsPage() {
             try {
                 const response = await fetch('/api/posts');
                 const data = await response.json();
-                
-                // Validate post types
                 const validatedPosts = data.map((post: any) => ({
                     ...post,
-                    postType: ['image', 'video', 'text'].includes(post.postType) 
-                        ? post.postType 
+                    postType: ['image', 'video', 'text'].includes(post.postType)
+                        ? post.postType
                         : 'text'
                 }));
-                
                 setPosts(validatedPosts);
             } catch (error) {
                 console.error('Failed to load posts:', error);
@@ -88,7 +152,6 @@ export default function PostsPage() {
 
     return (
         <div className="container mx-auto p-4 space-y-6">
-            {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                 <h1 className="text-3xl font-bold text-primary">🏋️♂️ Gym Announcements</h1>
                 {['owner', 'admin'].includes(session.user.role) && (
@@ -101,7 +164,6 @@ export default function PostsPage() {
                 )}
             </div>
 
-            {/* Posts Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start auto-rows-[minmax(400px,auto)]">
                 {loading ? (
                     Array.from({ length: 3 }).map((_, i) => (
@@ -124,7 +186,6 @@ export default function PostsPage() {
                 ) : posts.length > 0 ? (
                     posts.map((post) => (
                         <Card key={post.id} className="hover:shadow-lg transition-shadow flex flex-col min-h-full">
-                            {/* Author Section */}
                             <CardHeader className="flex flex-row items-center gap-4 pb-4">
                                 <Avatar className="h-12 w-12 border-2 border-primary">
                                     <AvatarImage src={post.author.image} />
@@ -139,19 +200,41 @@ export default function PostsPage() {
                                     </p>
                                 </div>
                             </CardHeader>
+                            <Dialog open={!!selectedMedia} onOpenChange={(open) => !open && setSelectedMedia(null)}>
+                                <DialogTitle className='hidden'>Post Media</DialogTitle>
+                                <DialogContent className="max-w-[90vw] max-h-[90vh]">
+                                    {selectedMedia?.type === 'image' ? (
+                                        <img
+                                            src={selectedMedia.url}
+                                            alt="Enlarged post media"
+                                            className="object-contain w-full h-full max-h-[80vh]"
+                                        />
+                                    ) : (
+                                        <video
+                                            controls
+                                            className="w-full h-full"
+                                            autoPlay
+                                        >
+                                            <source src={selectedMedia?.url} type="video/mp4" />
+                                            <source src={selectedMedia?.url} type="video/webm" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    )}
+                                </DialogContent>
+                            </Dialog>
 
-                            {/* Post Content */}
                             <CardContent className="flex-1 space-y-4 flex flex-col">
                                 <h2 className="text-xl font-bold text-primary">{post.title}</h2>
 
                                 {post.mediaUrl && (
-                                    <div className="relative max-w-full max-h-[200px] mx-auto rounded-xl overflow-hidden border">
+                                    <div className="relative max-w-full max-h-[200px] mx-auto rounded-xl overflow-hidden border cursor-pointer hover:opacity-90 transition-opacity">
                                         {post.postType === 'image' ? (
                                             <img
                                                 src={post.mediaUrl}
                                                 alt="Post media"
                                                 className="object-cover w-full h-full"
                                                 loading="lazy"
+                                                onClick={() => setSelectedMedia({ url: post.mediaUrl!, type: post.postType })}
                                             />
                                         ) : (
                                             <video controls className="w-full h-full" key={post.mediaUrl}>
@@ -185,7 +268,54 @@ export default function PostsPage() {
                                 )}
                             </CardContent>
 
-                            {/* Reactions & Comments */}
+                            <Dialog open={commentOpen} onOpenChange={setCommentOpen}>
+                                <DialogContent className="max-h-[80vh] flex flex-col">
+                                    <DialogHeader>
+                                        <DialogTitle>Comments</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="flex-1 overflow-y-auto space-y-4">
+                                        {isLoadingComments ? (
+                                            <div className="flex justify-center items-center h-full">
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                                            </div>
+                                        ) : (
+                                            comments.map((comment) => (
+                                                <div key={comment.id} className="flex gap-4 items-start group">
+                                                    <Avatar className="h-8 w-8">
+                                                        <AvatarImage src={comment.author.image} />
+                                                        <AvatarFallback>
+                                                            {comment.author.name?.[0] || 'U'}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <p className="font-medium">{comment.author.name || 'User'}</p>
+                                                            <span className="text-xs text-muted-foreground">
+                                                                {formatDistanceToNow(new Date(comment.createdAt))}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-sm">{comment.content}</p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+
+                                    <form onSubmit={handleSubmit(handleCommentSubmit)} className="pt-4 border-t">
+                                        <div className="flex gap-2">
+                                            <Input
+                                                {...register('content', { required: true })}
+                                                placeholder="Add a comment..."
+                                                className="flex-1"
+                                            />
+                                            <Button type="submit" size="sm">
+                                                Post
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+
                             <CardFooter className="border-t p-4 pt-4 mt-auto">
                                 <div className="flex w-full items-center justify-between">
                                     <div className="flex gap-2">
@@ -209,8 +339,14 @@ export default function PostsPage() {
                                         variant="outline"
                                         size="sm"
                                         className="hover:bg-primary/10 hover:text-primary"
+                                        onClick={() => {
+                                            setSelectedPostId(post.id);
+                                            fetchComments(post.id);
+                                            setCommentOpen(true);
+                                        }}
                                     >
-                                        💬 <span className="ml-2">{post.comments?.length || 0}</span>
+                                        <MessageCircleIcon className="w-4 h-4 mr-2" />
+                                        {post.comments?.length || 0}
                                     </Button>
                                 </div>
                             </CardFooter>

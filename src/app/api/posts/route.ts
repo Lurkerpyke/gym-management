@@ -13,7 +13,8 @@ export async function GET() {
                         name: true,
                         image: true
                     }
-                }
+                },
+                comments: true  // Move inside the include object
             },
             orderBy: { createdAt: 'desc' }
         });
