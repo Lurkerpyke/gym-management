@@ -55,16 +55,20 @@ model Session {
 }
 
 model UserMetrics {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  user            User     @relation(fields: [userId], references: [id])
-  currentWeight   Float
-  goalWeight      Float
-  bodyFat         Float
-  muscleMass      Float
-  lastMeasurement DateTime
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id])
+  currentWeight       Float    // in kg
+  height              Float?   // in meters
+  bmi                 Float?
+  bodyFat             Float?   // body fat percentage
+  muscleMass          Float?   // muscle mass percentage
+  waistCircumference  Float?   // in cm
+  hipCircumference    Float?   // in cm
+  neckCircumference   Float?   // in cm
+  lastMeasurement     DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
 
 model WorkoutSession {

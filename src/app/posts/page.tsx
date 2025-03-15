@@ -14,7 +14,6 @@ import { MegaphoneIcon, MessageCircleIcon, PlusCircleIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { comment } from 'postcss';
 
 type Comment = {
     id: string;

@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "UserMetrics" ADD COLUMN     "bmi" DOUBLE PRECISION,
+ADD COLUMN     "height" DOUBLE PRECISION,
+ADD COLUMN     "hipCircumference" DOUBLE PRECISION,
+ADD COLUMN     "neckCircumference" DOUBLE PRECISION,
+ADD COLUMN     "waistCircumference" DOUBLE PRECISION,
+ALTER COLUMN "bodyFat" DROP NOT NULL,
+ALTER COLUMN "muscleMass" DROP NOT NULL,
+ALTER COLUMN "lastMeasurement" DROP NOT NULL;
