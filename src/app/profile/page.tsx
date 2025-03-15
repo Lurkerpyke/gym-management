@@ -32,7 +32,7 @@ export default async function ProfilePage() {
         <div className="container mx-auto p-4 space-y-6">
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row items-center gap-6 justify-between px-4">
-                <div className="flex items-center gap-5">
+                <div className="flex flex-col md:flex-row items-center gap-5">
                     <Avatar className="h-24 w-24">
                         <AvatarImage src={session.user.image || ""} />
                         <AvatarFallback className="bg-primary text-primary-foreground">
@@ -94,7 +94,7 @@ export default async function ProfilePage() {
 
             {/* Workout Schedule Section */}
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Proximos treinos</CardTitle>
                     <div className="flex items-center gap-2">
                         <CalendarCheck className="h-4 w-4 text-muted-foreground" />

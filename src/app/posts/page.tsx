@@ -60,6 +60,7 @@ export default function PostsPage() {
     const [commentOpen, setCommentOpen] = useState(false);
     const { register, handleSubmit, reset } = useForm<{ content: string }>();
 
+    
 
 
     const fetchComments = async (postId: string) => {

@@ -44,9 +44,9 @@ export default function AboutPage() {
     ];
 
     return (
-        <div className="space-y-20 pb-20">
+        <div className="space-y-20 pb-20 flex flex-col items-center">
             {/* Hero Section */}
-            <section className="relative h-[70vh] flex items-center justify-center">
+            <section className="relative h-[70vh] flex items-center justify-center w-full">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/5 dark:from-primary/10 dark:to-primary/5" />
                 <div className="relative z-10 text-center space-y-6 px-4 max-w-4xl">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
