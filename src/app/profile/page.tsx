@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Weight, Info, Scale, Activity, CalendarCheck, User, Ruler, Calculator, Calendar } from "lucide-react";
+import { Weight, Info, Scale, Activity, CalendarCheck, User, Ruler, Calculator, Calendar, HeartPulse, Trophy, Dumbbell } from "lucide-react";
 import UpdateMetricsDrawer from "@/components/UpdateMetricsDrawer";
 import { redirect } from "next/navigation";
 import WorkoutSessionDrawer from '@/components/WorkoutSessionDrawer';
@@ -157,9 +157,49 @@ export default async function ProfilePage() {
                         </div>
                     </CardContent>
                 </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Body Analysis</CardTitle>
+                        <HeartPulse className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent className="space-y-1">
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">Fat/Muscle Ratio</span>
+                            <span>
+                                {metrics?.bodyFat || 0}% / {metrics?.muscleMass || 0}%
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">Waist-Hip Ratio</span>
+                            <span>
+                                {metrics?.waistCircumference && metrics?.hipCircumference
+                                    ? (metrics.waistCircumference / metrics.hipCircumference).toFixed(2)
+                                    : 'N/A'}
+                            </span>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Recent Achievements</CardTitle>
+                        <Trophy className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex gap-4">
+                            <div className="flex flex-col items-center">
+                                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <Dumbbell className="h-5 w-5 text-primary" />
+                                </div>
+                                <span className="text-xs mt-1">{sessions.length} Workouts</span>
+                            </div>
+                            {/* Add more achievements */}
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
 
             <UpdateMetricsDrawer metrics={metrics} />
+
 
             {/* Workout Schedule Section */}
             <Card>
@@ -190,6 +230,40 @@ export default async function ProfilePage() {
                             </div>
                         ))}
                     </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Health Tips</CardTitle>
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    {metrics?.bmi && (
+                        <div className="text-sm space-y-2">
+                            {['Obese', 'Overweight'].includes(bmiStatus?.status || '') && (
+                                <p>💡 Para reduzir o excesso de peso, combine 150 minutos semanais de cardio moderado com sessões de treino de força. Considere também HIIT para maximizar os resultados. Consulte um profissional antes de iniciar qualquer programa intensivo</p>
+                            )}
+                            {bmiStatus?.status === 'Normal weight' && (
+                                <p>💡 Seu IMC está ideal. Continue com uma dieta equilibrada e exercícios regulares para manter a saúde e a performance física. monitore regularmente seus indicadores de saúde</p>
+                            )}
+                            {bmiStatus?.status === 'Underweight' && (
+                                <p>💡 Se estiver abaixo do peso, invista em refeições nutritivas e densas em calorias, associadas a treinos de resistência. Consultar um nutricionista pode ajudar a desenvolver um plano personalizado. verifique com um médico se a baixa massa corporal não está relacionada a condições de saúde subjacentes</p>
+                            )}
+                            {metrics.muscleMass !== null && metrics.muscleMass < 30 && (
+                                <p>💪 Para melhorar sua massa muscular, inclua treinos de resistência pelo menos 2x/semana, focando em progressão gradual da carga.</p>
+                            )}
+                            {metrics.muscleMass !== null && metrics.muscleMass < 30 && (
+                                <p>💡 (Valores de referência: Homens 33-39%, Mulheres 25-31%)</p>
+                            )}
+                            {metrics.muscleMass !== null && metrics.muscleMass < 25 && (
+                                <p>💡 Sua massa muscular está abaixo do ideal. Aumente a ingestão de proteínas e considere a orientação de um profissional de educação física para um plano de treino específico.</p>
+                            )}
+                            {metrics.muscleMass !== null && metrics.muscleMass < 25 && (
+                                <p>💡 (Valores de referência: Homens 33-39%, Mulheres 25-31%)</p>
+                            )}
+
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
