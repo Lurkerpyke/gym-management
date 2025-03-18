@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { formatDistanceToNow } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
-import { MegaphoneIcon, MessageCircleIcon, PlusCircleIcon } from 'lucide-react';
+import { MegaphoneIcon, MessageCircleIcon, NewspaperIcon, PlusCircleIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -59,7 +59,7 @@ export default function PostsPage() {
     const [commentOpen, setCommentOpen] = useState(false);
     const { register, handleSubmit, reset } = useForm<{ content: string }>();
 
-    
+
 
 
     const fetchComments = async (postId: string) => {
@@ -153,7 +153,7 @@ export default function PostsPage() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                <h1 className="text-3xl font-bold text-primary">🏋️♂️ Gym Announcements</h1>
+                <h1 className="text-3xl font-bold text-primary flex gap-2 items-center justify-center"><NewspaperIcon className='h-8 w-8' /> Gym Announcements</h1>
                 {['owner', 'admin'].includes(session.user.role) && (
                     <Button asChild className="w-full md:w-auto bg-primary hover:bg-primary/90">
                         <Link href="/posts/create" className="gap-2">

@@ -4,7 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Weight, Info, Scale, Activity, CalendarCheck, User, Ruler, Calculator, Calendar, HeartPulse, Trophy, Dumbbell } from "lucide-react";
+import { Weight, Info, Scale, Activity, CalendarCheck, User, Ruler, Calculator, Calendar, HeartPulse, Trophy, Dumbbell, LayoutDashboard, Newspaper } from "lucide-react";
 import UpdateMetricsDrawer from "@/components/UpdateMetricsDrawer";
 import { redirect } from "next/navigation";
 import WorkoutSessionDrawer from '@/components/WorkoutSessionDrawer';
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getBmiStatus } from "../../../utils/bmi";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import CompleteSessionButton from "@/components/CompleteSessionButton";
 
 export default async function ProfilePage() {
     const session = await getServerSession(authOptions);
@@ -48,14 +49,21 @@ export default async function ProfilePage() {
                         <p className="text-muted-foreground">{session.user.email}</p>
                     </div>
                 </div>
-                <div>
+                <div className="flex flex-col md:flex-row gap-2">
                     {session.user.role === "owner" && (
                         <Button variant="outline" asChild>
                             <Link href="/owner">
+                                <LayoutDashboard className="h-4 w-4" />
                                 Owner Dashboard
                             </Link>
                         </Button>
                     )}
+                    <Button variant="outline" asChild>
+                        <Link href="/posts">
+                            <Newspaper className="h-4 w-4" />
+                            Posts
+                        </Link>
+                    </Button>
                 </div>
             </div>
 
@@ -213,7 +221,8 @@ export default async function ProfilePage() {
                 <CardContent>
                     <div className="space-y-4">
                         {sessions.map((session) => (
-                            <div key={session.id} className="flex items-center justify-between p-2 hover:bg-muted rounded">
+                            <div key={session.id} className={'flex items-center justify-between p-2 rounded hover:bg-muted transition-colors'}
+                            style={{ backgroundColor: `hsl(var(${session.completed ? '--session-completed' :'--session-pending'}) / 50%)` }}>
                                 <div>
                                     <p className="font-medium">{session.title}</p>
                                     <p className="text-sm text-muted-foreground">
@@ -224,6 +233,10 @@ export default async function ProfilePage() {
                                     </p>
                                 </div>
                                 <div className="flex gap-2">
+                                    <CompleteSessionButton
+                                        sessionId={session.id}
+                                        completed={session.completed}
+                                    />
                                     <WorkoutSessionDrawer session={session} />
                                     <DeleteSessionButton sessionId={session.id} />
                                 </div>

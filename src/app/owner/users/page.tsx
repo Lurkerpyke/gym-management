@@ -66,13 +66,13 @@ const columns: ColumnDef<User>[] = [
                         body: JSON.stringify({ userId: user.id, role: newRole })
                     })
 
-                    if (!response.ok) throw new Error('Failed to update role')
-
-                    toast.success(`${user.email}'s role updated to ${newRole}`)
+                    if (!response.ok) {throw new Error('Failed to update role') || toast.success(`${user.email}'s role updated to ${newRole}`)}
+                    
                 } catch (error) {
                     toast.error('Failed to update role')
                 } finally {
                     setLoading(false)
+                    window.location.reload()
                 }
             }
 
@@ -149,8 +149,7 @@ export default function OwnerManagement() {
     useEffect(() => {
         if (status === 'loading') return
         if (session?.user?.role !== 'owner') {
-            redirect('/')
-            return
+            redirect('/unauthorized')
         }
 
         const fetchUsers = async () => {

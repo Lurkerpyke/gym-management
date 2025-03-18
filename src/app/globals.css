@@ -76,6 +76,10 @@ html {
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --session-completed: 146 60% 85%;
+
+    --session-pending: 220 15% 96%;
   }
 
   .dark {
@@ -114,6 +118,10 @@ html {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --session-completed: 146 60% 25%;
+    
+    --session-pending: 220 10% 18%;
   }
 }
 

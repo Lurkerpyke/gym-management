@@ -35,3 +35,5 @@ export async function requireLogin() {
     return session; // Retorna a sessão caso seja admin
 }
 
+
+export { authOptions };
