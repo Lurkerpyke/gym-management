@@ -14,6 +14,7 @@ import Link from "next/link";
 import { getBmiStatus } from "../../../utils/bmi";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import CompleteSessionButton from "@/components/CompleteSessionButton";
+import { NotificationSystem } from "@/components/Notifications";
 
 export default async function ProfilePage() {
     const session = await getServerSession(authOptions);
@@ -21,6 +22,7 @@ export default async function ProfilePage() {
     if (!session?.user?.id) {
         return redirect("/signin");
     }
+
 
     const metrics = await prisma.userMetrics.findUnique({
         where: { userId: session.user.id },
@@ -32,6 +34,15 @@ export default async function ProfilePage() {
     });
 
     const bmiStatus = metrics?.bmi ? getBmiStatus(metrics.bmi) : null
+
+    const now = new Date()
+    const upcomingSessions = sessions
+        .filter(session => !session.completed && new Date(session.date) > now)
+        .map(session => ({
+            id: session.id,
+            title: session.title,
+            date: session.date
+        }))
 
     return (
         <div className="container mx-auto p-4 space-y-6">
@@ -50,6 +61,7 @@ export default async function ProfilePage() {
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-2">
+                    <NotificationSystem sessions={upcomingSessions} />
                     {session.user.role === "owner" && (
                         <Button variant="outline" asChild>
                             <Link href="/owner">
