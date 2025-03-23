@@ -48,7 +48,7 @@ const SignInButton = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-full p-2 flex flex-col justify-center items-start">
-            <div className="flex items-center gap-4 p-2">
+            <div className="flex items-center gap-4 p-2 flex-col md:flex-row">
               <Avatar className="h-10 w-10">
                 {session?.user?.image ? (
                   <AvatarImage
@@ -65,7 +65,7 @@ const SignInButton = () => {
                 <p className="text-sm font-medium">
                   {session.user.name || 'User name'}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground break-words">
                   {session.user.email}
                 </p>
               </div>

@@ -225,7 +225,7 @@ export default async function ProfilePage() {
             <Card>
                 <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Proximos treinos</CardTitle>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-col md:flex-row">
                         <CalendarCheck className="h-4 w-4 text-muted-foreground" />
                         <WorkoutSessionDrawer />
                     </div>
@@ -244,7 +244,7 @@ export default async function ProfilePage() {
                                         Duration: {session.duration} minutes
                                     </p>
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex gap-2 flex-col md:flex-row">
                                     <CompleteSessionButton
                                         sessionId={session.id}
                                         completed={session.completed}

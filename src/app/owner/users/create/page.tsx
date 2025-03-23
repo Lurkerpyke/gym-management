@@ -15,7 +15,7 @@ export default async function UserCreatePage() {
     }
     return (
         <div className="container mx-auto p-4 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-col md:flex-row gap-3">
                 <h1 className="text-2xl font-bold">Criar Novo Usuário</h1>
                 <Button variant="outline" asChild>
                     <Link href="/owner">

@@ -180,7 +180,7 @@ export default function OwnerManagement() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <Card>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardHeader className='flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2'>
                     <CardTitle>User Management</CardTitle>
                     <Button variant="outline" asChild>
                         <Link href="/owner">
