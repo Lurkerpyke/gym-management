@@ -2,6 +2,9 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Trophy, Clock, Users, HeartPulse, CalendarCheck } from "lucide-react";
 import Image from "next/image";
+import { LampContainer } from "@/components/ui/lamp";
+import { motion } from "motion/react";
+import HeroAbout from "./components/HeroAbout";
 
 export default function AboutPage() {
     const features = [
@@ -45,18 +48,8 @@ export default function AboutPage() {
 
     return (
         <div className="space-y-20 pb-20 flex flex-col items-center">
-            {/* Hero Section */}
-            <section className="relative h-[100vh] flex items-center justify-center w-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/5 dark:from-primary/10 dark:to-primary/5" />
-                <div className="relative z-10 text-center space-y-6 px-4 max-w-4xl">
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-                        Redefining Fitness Excellence
-                    </h1>
-                    <p className="text-xl text-muted-foreground">
-                        Since 2012, we've transformed 50,000+ lives through science-backed training and community support
-                    </p>
-                </div>
-            </section>
+            {/* Modified Hero Section with Lamp Effect */}
+            <HeroAbout />
 
             {/* Gym Story Section */}
             <section className="container grid md:grid-cols-2 gap-12 items-center px-5">
