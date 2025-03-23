@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
     images: {
         domains: ['lh3.googleusercontent.com', 'www.pexels.com', 'avatars.githubusercontent.com', 'unsplash.com'], // Adicionando múltiplos domínios
     },
+    transpilePackages: ['pdfmake'],
 };
 
 

@@ -4,7 +4,15 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Users, Bell, Activity, AlertCircle } from "lucide-react";
+import { Users, Bell, Activity, AlertCircle, Loader2 } from "lucide-react";
+import { useState } from "react";
+
+interface ReportData {
+    totalUsers: number;
+    newUsersLastWeek: number;
+    activeUsers: number;
+    roleDistribution: Record<string, number>;
+}
 
 const iconComponents = {
     users: Users,
@@ -24,6 +32,150 @@ export const QuickActionButton = ({
 }) => {
     const router = useRouter();
     const IconComponent = iconComponents[icon];
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [format, setFormat] = useState<'pdf' | 'csv'>('pdf');
+
+    const generatePDF = async (data: ReportData) => {
+        try {
+            // Dynamically import PDFMake and fonts
+            const pdfMake = await import('pdfmake/build/pdfmake');
+            const vfsFonts = await import('pdfmake/build/vfs_fonts');
+            // Merge fonts into virtual file system
+            pdfMake.default.vfs = vfsFonts.default;
+
+            pdfMake.default.fonts = {
+                Roboto: {
+                    normal: 'Roboto-Regular.ttf',
+                    bold: 'Roboto-Medium.ttf',
+                    italics: 'Roboto-Italic.ttf',
+                    bolditalics: 'Roboto-MediumItalic.ttf'
+                }
+            };
+
+            // PDF document definition
+            const docDefinition = {
+                pageOrientation: 'portrait',
+                content: [
+                    { text: 'Gym Management Report', style: 'header' },
+                    { text: `Generated: ${new Date().toLocaleDateString()}`, style: 'subheader' },
+                    { text: '\n' }, // Spacer
+                    {
+                        table: {
+                            widths: ['*', '*'],
+                            body: [
+                                [
+                                    { text: 'Total Members', style: 'tableHeader' },
+                                    { text: data.totalUsers, style: 'tableValue' }
+                                ],
+                                [
+                                    { text: 'New Members (Last Week)', style: 'tableHeader' },
+                                    { text: data.newUsersLastWeek, style: 'tableValue' }
+                                ],
+                                [
+                                    { text: 'Active Members', style: 'tableHeader' },
+                                    { text: data.activeUsers, style: 'tableValue' }
+                                ]
+                            ]
+                        }
+                    },
+                    { text: '\n\n' }, // Spacer
+                    {
+                        text: 'Role Distribution',
+                        style: 'sectionHeader'
+                    },
+                    {
+                        ul: Object.entries(data.roleDistribution).map(([role, count]) =>
+                            `${role}: ${count} members`
+                        )
+                    }
+                ],
+                styles: {
+                    header: {
+                        fontSize: 24,
+                        bold: true,
+                        color: '#2d3748',
+                        margin: [0, 0, 0, 10]
+                    },
+                    subheader: {
+                        fontSize: 12,
+                        color: '#718096',
+                        margin: [0, 0, 0, 15]
+                    },
+                    sectionHeader: {
+                        fontSize: 16,
+                        bold: true,
+                        color: '#2d3748',
+                        margin: [0, 15, 0, 10]
+                    },
+                    tableHeader: {
+                        bold: true,
+                        fontSize: 12,
+                        color: '#4a5568'
+                    },
+                    tableValue: {
+                        fontSize: 14,
+                        color: '#2d3748'
+                    }
+                },
+                defaultStyle: {
+                    font: 'Roboto'
+                }
+            } as any;
+
+            // Generate PDF
+            const pdfDoc = pdfMake.default.createPdf(docDefinition);
+            pdfDoc.download(`gym-report-${new Date().toISOString()}.pdf`);
+
+        } catch (error) {
+            toast.error('Failed to generate PDF');
+            console.error('PDF generation error:', error);
+        }
+    };
+
+    const generateCSV = (data: ReportData) => {
+        // Simple CSV implementation
+        const csvContent = [
+            ['Report Type', 'User Statistics'],
+            ['Generated At', new Date().toISOString()],
+            ['Total Users', data.totalUsers],
+            ['New Users (Last Week)', data.newUsersLastWeek],
+            ['Active Users', data.activeUsers],
+            ...Object.entries(data.roleDistribution).map(([role, count]) =>
+                [`Role: ${role}`, count]
+            )
+        ].map(row => row.join(',')).join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `gym-report-${new Date().toISOString()}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+
+    const handleGenerateReport = async () => {
+        setIsGenerating(true);
+        try {
+            const response = await fetch('/api/reports/user-stats');
+            if (!response.ok) throw new Error('Failed to fetch data');
+            const data = await response.json();
+
+            // Use format state here 👇
+            if (format === 'pdf') {
+                generatePDF(data);
+            } else {
+                generateCSV(data);
+            }
+            toast.success('Report generated successfully');
+
+        } catch (error) {
+            toast.error('Failed to generate report');
+            console.error('Report error:', error);
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const handleAction = () => {
         switch (actionType) {
@@ -34,7 +186,7 @@ export const QuickActionButton = ({
                 router.push('/owner/notifications/new');
                 break;
             case 'generate-report':
-                toast.info('Funcionalidade de relatório em desenvolvimento');
+                handleGenerateReport();
                 break;
             case 'system-settings':
                 toast.info('Configurações do sistema em desenvolvimento');
@@ -45,11 +197,31 @@ export const QuickActionButton = ({
     return (
         <Button
             variant="outline"
-            className="h-24 flex flex-col items-center justify-center"
+            className="h-full flex flex-col items-center justify-center"
             onClick={handleAction}
+            disabled={isGenerating}
         >
-            <IconComponent className="h-6 w-6 mb-2" />
-            <span className="text-sm">{label}</span>
+            {isGenerating ? (
+                <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+                <>
+                    <IconComponent className="h-6 w-6 mb-2" />                                                                                                          
+                    <span className="text-sm">{label}</span>
+                    {/* Add the select dropdown here 👇 */}
+                    {actionType === 'generate-report' && (
+                        <select
+                            aria-label="Report format"
+                            className="mt-2 text-xs bg-background border rounded p-1"
+                            value={format}
+                            onChange={(e) => setFormat(e.target.value as 'pdf' | 'csv')}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <option value="pdf">PDF</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    )}
+                </>
+            )}
         </Button>
     );
 };
