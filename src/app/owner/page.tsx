@@ -36,7 +36,15 @@ export default async function OwnerPage() {
         systemHealth
     ] = await Promise.all([
         prisma.user.count(),
-        prisma.session.count(),
+        prisma.user.count({
+            where: {
+                workoutSessions: {
+                    some: {
+                        completed: true
+                    }
+                }
+            }
+        }),
         prisma.user.count({
             where: {
                 createdAt: {
@@ -120,7 +128,7 @@ export default async function OwnerPage() {
                     <CardContent>
                         <div className="text-2xl font-bold">{activeUsers}</div>
                         <p className="text-xs text-muted-foreground">
-                            Currently logged in users
+                            Clientes que realizaram exercícios recentemente
                         </p>
                     </CardContent>
                 </Card>

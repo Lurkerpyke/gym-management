@@ -6,6 +6,7 @@ import features, { Feature } from "@/app/data/featuresData"
 import testimonials, { Testimonial } from "./data/testimonialsData"
 import gymClasses, { GymClass } from "./data/classesData"
 import pricingPlans, { PricingPlan } from "./data/pricingData"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -34,8 +35,10 @@ export default function Home() {
             </div>
             <div className="flex flex-col md:flex-row md:space-x-10 justify-center items-center gap-4 text-center">
               <Button className="bg-primary-foreground text-secondary-foreground hover:bg-white/90 hover:text-primary">Comece agora</Button>
-              <Button className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary">
-                Saiba mais
+              <Button className="bg-primary-foreground text-secondary-foreground border-white hover:bg-white hover:text-primary" asChild>
+                <Link href="/about">
+                  Saiba mais
+                </Link>
               </Button>
             </div>
           </div>

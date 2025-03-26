@@ -56,23 +56,23 @@ export const QuickActionButton = ({
             const docDefinition = {
                 pageOrientation: 'portrait',
                 content: [
-                    { text: 'Gym Management Report', style: 'header' },
-                    { text: `Generated: ${new Date().toLocaleDateString()}`, style: 'subheader' },
+                    { text: 'Gym Management Relatório', style: 'header' },
+                    { text: `Gerado em: ${new Date().toLocaleDateString()}`, style: 'subheader' },
                     { text: '\n' }, // Spacer
                     {
                         table: {
                             widths: ['*', '*'],
                             body: [
                                 [
-                                    { text: 'Total Members', style: 'tableHeader' },
+                                    { text: 'Membros Totais', style: 'tableHeader' },
                                     { text: data.totalUsers, style: 'tableValue' }
                                 ],
                                 [
-                                    { text: 'New Members (Last Week)', style: 'tableHeader' },
+                                    { text: 'Novos Membros (Última semana)', style: 'tableHeader' },
                                     { text: data.newUsersLastWeek, style: 'tableValue' }
                                 ],
                                 [
-                                    { text: 'Active Members', style: 'tableHeader' },
+                                    { text: 'Membros ativos', style: 'tableHeader' },
                                     { text: data.activeUsers, style: 'tableValue' }
                                 ]
                             ]
@@ -80,12 +80,12 @@ export const QuickActionButton = ({
                     },
                     { text: '\n\n' }, // Spacer
                     {
-                        text: 'Role Distribution',
+                        text: 'Distribuição de Funções:',
                         style: 'sectionHeader'
                     },
                     {
                         ul: Object.entries(data.roleDistribution).map(([role, count]) =>
-                            `${role}: ${count} members`
+                            `${role}: ${count} membros`
                         )
                     }
                 ],
@@ -197,7 +197,7 @@ export const QuickActionButton = ({
     return (
         <Button
             variant="outline"
-            className="h-full flex flex-col items-center justify-center"
+            className="h-full min-h-40 flex flex-col items-center justify-center"
             onClick={handleAction}
             disabled={isGenerating}
         >
@@ -205,21 +205,23 @@ export const QuickActionButton = ({
                 <Loader2 className="h-6 w-6 animate-spin" />
             ) : (
                 <>
-                    <IconComponent className="h-6 w-6 mb-2" />                                                                                                          
-                    <span className="text-sm">{label}</span>
-                    {/* Add the select dropdown here 👇 */}
-                    {actionType === 'generate-report' && (
-                        <select
-                            aria-label="Report format"
-                            className="mt-2 text-xs bg-background border rounded p-1"
-                            value={format}
-                            onChange={(e) => setFormat(e.target.value as 'pdf' | 'csv')}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <option value="pdf">PDF</option>
-                            <option value="csv">CSV</option>
-                        </select>
-                    )}
+                    <IconComponent className="h-6 w-6 mb-2" />
+                    <div className="flex flex-col lg:flex-row gap-4">
+                        <span className="text-sm">{label}</span>
+                        {/* Add the select dropdown here 👇 */}
+                        {actionType === 'generate-report' && (
+                            <select
+                                aria-label="Report format"
+                                className="text-xs bg-background border rounded"
+                                value={format}
+                                onChange={(e) => setFormat(e.target.value as 'pdf' | 'csv')}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        )}
+                    </div>
                 </>
             )}
         </Button>

@@ -11,6 +11,14 @@ declare module "next-auth" {
             role?: string;
         } & DefaultSession["user"];
     }
+
+    interface SignInOptions {
+        inviteCode?: string;
+    }
+
+    interface Account {
+        inviteCode?: string;
+    }
 }
 
 declare module "next-auth/jwt" {

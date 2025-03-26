@@ -105,30 +105,30 @@ const columns: ColumnDef<User>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className='bg-secondary'>
                         <DropdownMenuItem
                             onClick={() => updateRole('admin')}
                             disabled={loading || user.role === 'admin'}
                         >
-                            Make Admin
+                            Mudar para Admin
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onClick={() => updateRole('user')}
                             disabled={loading || user.role === 'user'}
                         >
-                            Make User
+                            Mudar para User
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onClick={() => updateRole('owner')}
                             disabled={loading || user.role === 'owner'}
                         >
-                            Make Owner
+                            Mudar para Owner
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={deleteUser}
                             disabled={loading || user.email === session?.user?.email}
-                            className="text-destructive focus:bg-destructive/10"
+                            className="text-foreground focus:bg-destructive bg-primary"
                         >
                             Deletar Usuário
                         </DropdownMenuItem>
@@ -180,12 +180,10 @@ export default function OwnerManagement() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <Card>
-                <CardHeader className='flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2'>
-                    <CardTitle>User Management</CardTitle>
-                    <Button variant="outline" asChild>
-                        <Link href="/owner">
-                            Voltar para o Dashboard
-                        </Link>
+                <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-primary">User Management</CardTitle>
+                    <Button variant="outline" className="border-primary text-primary">
+                        <Link href="/owner">Voltar para o Dashboard</Link>
                     </Button>
                 </CardHeader>
                 <CardContent>
@@ -200,7 +198,7 @@ export default function OwnerManagement() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Recent Signups</CardTitle>
+                    <CardTitle className="text-primary">Recent Signups</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
@@ -212,9 +210,9 @@ export default function OwnerManagement() {
                                         Joined {new Date(user.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
-                                <span className={`px-2 py-1 rounded text-xs font-medium ${user.role === 'owner' ? 'bg-purple-100 text-purple-800' :
-                                        user.role === 'admin' ? 'bg-blue-100 text-blue-800' :
-                                            'bg-gray-100 text-gray-800'
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${user.role === "owner" ? "bg-purple-100 text-purple-800" :
+                                        user.role === "admin" ? "bg-blue-100 text-blue-800" :
+                                            "bg-gray-100 text-gray-800"
                                     }`}>
                                     {user.role}
                                 </span>
@@ -224,5 +222,5 @@ export default function OwnerManagement() {
                 </CardContent>
             </Card>
         </div>
-    )
+    );
 }

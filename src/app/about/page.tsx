@@ -1,16 +1,13 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Dumbbell, Trophy, Clock, Users, HeartPulse, CalendarCheck } from "lucide-react";
+import { Dumbbell, Trophy, HeartPulse, CalendarCheck } from "lucide-react";
 import Image from "next/image";
-import { LampContainer } from "@/components/ui/lamp";
-import { motion } from "motion/react";
 import HeroAbout from "./components/HeroAbout";
 
 export default function AboutPage() {
     const features = [
         {
             icon: <Dumbbell className="w-8 h-8" />,
-            title: "World-Class Equipment",
+            title: "Equipamentos de alto nível",
             description: "500+ pieces of cutting-edge equipment across 10 specialized zones"
         },
         {
@@ -130,12 +127,12 @@ export default function AboutPage() {
                 <div className="max-w-4xl mx-auto space-y-8 text-center">
                     <CalendarCheck className="w-12 h-12 mx-auto text-primary" />
                     <h2 className="text-3xl font-bold">Our Commitment</h2>
-                    <p className="text-xl text-muted-foreground">
+                    <p className="text-xl text-primary">
                         Every member receives a personalized 12-week success plan including:
                     </p>
                     <div className="grid md:grid-cols-4 gap-4">
                         {['Biometric Analysis', 'Custom Workouts', 'Nutrition Planning', 'Progress Tracking'].map((item) => (
-                            <div key={item} className="p-4 bg-background rounded-lg border border-blue-500">
+                            <div key={item} className="p-4 bg-background rounded-lg border border-primary">
                                 {item}
                             </div>
                         ))}
