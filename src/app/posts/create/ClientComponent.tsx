@@ -82,7 +82,7 @@ export default function ClientComponent() {
 
     return (
         <div className="container mx-auto p-4 max-w-2xl">
-            <h1 className="text-2xl font-bold mb-6">Create New Post</h1>
+            <h1 className="text-2xl font-bold mb-6">Crie um novo post</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <FormField
@@ -90,9 +90,9 @@ export default function ClientComponent() {
                         name="title"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Title</FormLabel>
+                                <FormLabel>Título</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="Enter post title" required />
+                                    <Input {...field} placeholder="Título do post" required />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -103,11 +103,11 @@ export default function ClientComponent() {
                         name="content"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Content</FormLabel>
+                                <FormLabel>Conteúdo</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         {...field}
-                                        placeholder="Write your announcement..."
+                                        placeholder="Escreva Seu Anúncio Aqui..."
                                         className="min-h-[150px]"
                                         required
                                     />
@@ -121,7 +121,7 @@ export default function ClientComponent() {
                         name="postType"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Post Type</FormLabel>
+                                <FormLabel>Tipo de post</FormLabel>
                                 <Select onValueChange={field.onChange} value={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
@@ -129,8 +129,8 @@ export default function ClientComponent() {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="text">Text Only</SelectItem>
-                                        <SelectItem value="image">Image</SelectItem>
+                                        <SelectItem value="text">Texto</SelectItem>
+                                        <SelectItem value="image">Imagem</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -142,7 +142,7 @@ export default function ClientComponent() {
                         name="mediaUrl"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Upload Media (optional)</FormLabel>
+                                <FormLabel>Envie Uma Imagem (opcional)</FormLabel>
                                 <FormControl className='bg-black'>
                                     <div className="flex flex-col gap-4">
                                         <UploadButton<OurFileRouter, "imageUploader">
@@ -180,10 +180,10 @@ export default function ClientComponent() {
                     />
                     <div className="flex gap-4">
                         <Button type="submit" disabled={uploading}>
-                            {uploading ? 'Uploading...' : 'Publish Post'}
+                            {uploading ? 'Publicando...' : 'Publicar post'}
                         </Button>
                         <Button variant="outline" onClick={() => router.push('/posts')}>
-                            Cancel
+                            Cancelar
                         </Button>
                     </div>
                 </form>

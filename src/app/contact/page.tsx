@@ -55,10 +55,10 @@ export default function ContactPage() {
             <Card className="w-full max-w-4xl shadow-xl rounded-xl border-0 bg-[hsl(var(--card))]">
                 <CardHeader className="text-center space-y-2">
                     <h1 className="text-4xl font-bold text-[hsl(var(--foreground))]">
-                        Get in Touch
+                        Entre em contato
                     </h1>
                     <p className="text-lg text-[hsl(var(--muted-foreground))]">
-                        We're here to help you achieve your fitness goals
+                        Estamos aqui para ajudar. Entre em contato conosco para qualquer dúvida ou solicitação.
                     </p>
                 </CardHeader>
 
@@ -71,16 +71,16 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-[hsl(var(--foreground))]">
-                                    Phone Support
+                                    Telefone
                                 </h3>
                                 <Link
                                     href="tel:+15551234567"
                                     className="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors"
                                 >
-                                    +1 (555) 123-4567
+                                    +55 (11) 99999-9999
                                 </Link>
                                 <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                                    Mon-Fri: 8am - 8pm EST
+                                    Seg à Sex: 8am - 8pm
                                 </p>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-[hsl(var(--foreground))]">
-                                    Email Us
+                                    E-mail
                                 </h3>
                                 <Link
                                     href="mailto:support@gymforge.com"
@@ -100,7 +100,7 @@ export default function ContactPage() {
                                     support@gymforge.com
                                 </Link>
                                 <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                                    Typically reply within 24 hours
+                                    Respostas em 24hrs de Seg à Sex
                                 </p>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-[hsl(var(--foreground))]">
-                                    Visit Us
+                                    Endereço
                                 </h3>
                                 <p className="text-[hsl(var(--muted-foreground))]">
                                     123 Fitness Street<br />
@@ -123,7 +123,7 @@ export default function ContactPage() {
                         {/* Map Integration */}
                         <div className="rounded-lg overflow-hidden h-48 border border-[hsl(var(--border))]">
                             <Map
-                                position={[-8.361569, -35.763336]} // NYC coordinates
+                                position={[-8.361569, -35.763336]}
                                 zoom={15}
                                 className="h-48 w-full"
                             />
@@ -135,11 +135,11 @@ export default function ContactPage() {
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-[hsl(var(--foreground))]">
-                                    Name
+                                    Nome
                                 </label>
                                 <Input
                                     name="name"
-                                    placeholder="Enter your name"
+                                    placeholder="Digite seu nome"
                                     className="bg-[hsl(var(--background))]"
                                     required
                                 />
@@ -147,12 +147,12 @@ export default function ContactPage() {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-[hsl(var(--foreground))]">
-                                    Email
+                                    E-mail
                                 </label>
                                 <Input
                                     name="email"
                                     type="email"
-                                    placeholder="Enter your email"
+                                    placeholder="Coloque seu E-mail aqui"
                                     className="bg-[hsl(var(--background))]"
                                     required
                                 />
@@ -160,11 +160,11 @@ export default function ContactPage() {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-[hsl(var(--foreground))]">
-                                    Subject
+                                    Assunto
                                 </label>
                                 <Input
                                     name="subject"
-                                    placeholder="How can we help?"
+                                    placeholder="No que podemos ajudar?"
                                     className="bg-[hsl(var(--background))]"
                                     required
                                 />
@@ -172,11 +172,11 @@ export default function ContactPage() {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-[hsl(var(--foreground))]">
-                                    Message
+                                    Mensagem
                                 </label>
                                 <Textarea
                                     name="message"
-                                    placeholder="Type your message here..."
+                                    placeholder="Digite sua mensagem aqui..."
                                     rows={5}
                                     className="bg-[hsl(var(--background))]"
                                     required
@@ -189,7 +189,7 @@ export default function ContactPage() {
                                 disabled={isSubmitting}
                             >
                                 <Send className="h-4 w-4" />
-                                {isSubmitting ? 'Sending...' : 'Send Message'}
+                                {isSubmitting ? 'Enviando...' : 'Enviar'}
                             </Button>
                         </form>
 
@@ -198,18 +198,14 @@ export default function ContactPage() {
                             <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 flex items-center gap-3">
                                 <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                                 <p className="text-emerald-600 dark:text-emerald-400 text-sm">
-                                    Your message has been successfully sent!
+                                    Sua mensagem foi enviada com sucesso!
                                 </p>
                             </div>
                         )}
                     </div>
                 </CardContent>
 
-                <CardFooter className="border-t border-[hsl(var(--border))] p-6">
-                    <div className="w-full text-center text-sm text-[hsl(var(--muted-foreground))]">
-                        © {new Date().getFullYear()} GymForge. All rights reserved.
-                    </div>
-                </CardFooter>
+
             </Card>
         </div>
     );

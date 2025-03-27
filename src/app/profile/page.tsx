@@ -85,7 +85,7 @@ export default async function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Height</CardTitle>
+                        <CardTitle className="text-sm font-medium">Altura</CardTitle>
                         <Ruler className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -98,7 +98,7 @@ export default async function ProfilePage() {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <div className="flex items-center gap-1">
-                            <CardTitle className="text-sm font-medium">BMI</CardTitle>
+                            <CardTitle className="text-sm font-medium">IMC</CardTitle>
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -106,12 +106,13 @@ export default async function ProfilePage() {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <div className="space-y-1">
-                                            <p className="font-medium">BMI Categories:</p>
-                                            <p>Underweight: &lt; 18.5</p>
-                                            <p>Normal weight: 18.5 – 24.9</p>
-                                            <p>Overweight: 25 – 29.9</p>
-                                            <p>Obesity: ≥ 30</p>
+                                            <p className="font-medium">Categorias de IMC:</p>
+                                            <p>Abaixo do peso: &lt; 18.5</p>
+                                            <p>Peso normal: 18.5 – 24.9</p>
+                                            <p>Sobrepeso: 25 – 29.9</p>
+                                            <p>Obesidade: ≥ 30</p>
                                         </div>
+
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
@@ -134,7 +135,7 @@ export default async function ProfilePage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Waist</CardTitle>
+                        <CardTitle className="text-sm font-medium">Cintura</CardTitle>
                         <Scale className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -146,7 +147,7 @@ export default async function ProfilePage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Hip</CardTitle>
+                        <CardTitle className="text-sm font-medium">Quadril</CardTitle>
                         <Activity className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -157,7 +158,7 @@ export default async function ProfilePage() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Weight</CardTitle>
+                        <CardTitle className="text-sm font-medium">Peso</CardTitle>
                         <Weight className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -168,7 +169,7 @@ export default async function ProfilePage() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Última medição</CardTitle>
+                        <CardTitle className="text-sm font-medium">Última Medição</CardTitle>
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -179,18 +180,18 @@ export default async function ProfilePage() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Body Analysis</CardTitle>
+                        <CardTitle className="text-sm font-medium">Análise Corporal</CardTitle>
                         <HeartPulse className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent className="space-y-1">
                         <div className="flex justify-between">
-                            <span className="text-muted-foreground">Fat/Muscle Ratio</span>
+                            <span className="text-muted-foreground">Proporção Gordura/Músculo</span>
                             <span>
                                 {metrics?.bodyFat || 0}% / {metrics?.muscleMass || 0}%
                             </span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-muted-foreground">Waist-Hip Ratio</span>
+                            <span className="text-muted-foreground">Proporção Cintura/Quadril</span>
                             <span>
                                 {metrics?.waistCircumference && metrics?.hipCircumference
                                     ? (metrics.waistCircumference / metrics.hipCircumference).toFixed(2)
@@ -201,7 +202,7 @@ export default async function ProfilePage() {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Recent Achievements</CardTitle>
+                        <CardTitle className="text-sm font-medium">Conquistas Recentes</CardTitle>
                         <Trophy className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>

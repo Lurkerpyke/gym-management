@@ -73,7 +73,7 @@ export default async function OwnerPage() {
 
     return (
         <div className="container mx-auto p-4 space-y-6">
-            {/* Dashboard Header */}
+            {/* Cabeçalho do Dashboard */}
             <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                 <div className="flex items-center gap-4">
                     <Avatar className="h-16 w-16">
@@ -84,20 +84,20 @@ export default async function OwnerPage() {
                     </Avatar>
                     <div>
                         <h1 className="text-2xl font-bold">Owner Dashboard</h1>
-                        <p className="text-muted-foreground">Welcome back, {session.user.name}</p>
+                        <p className="text-muted-foreground">Bem-vindo de volta, {session.user.name}!</p>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-2">
                     <Button variant="outline" asChild>
                         <Link href="/owner/users">
                             <Users className="mr-2 h-4 w-4" />
-                            Manage Users
+                            Gerenciar Usuários
                         </Link>
                     </Button>
                     <Button variant="outline" asChild>
                         <Link href="/posts">
                             <Bell className="h-4 w-4" />
-                            Send Announcement
+                            Enviar Anúncio
                         </Link>
                     </Button>
                 </div>
@@ -105,24 +105,24 @@ export default async function OwnerPage() {
 
             <Separator className="my-6" />
 
-            {/* Key Metrics Grid */}
+            {/* Grade de Métricas Principais */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                        <CardTitle className="text-sm font-medium">Total de Usuários</CardTitle>
                         <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{userCount}</div>
                         <p className="text-xs text-muted-foreground">
-                            +{newRegistrations} new this week
+                            +{newRegistrations} novos esta semana
                         </p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
+                        <CardTitle className="text-sm font-medium">Sessões Ativas</CardTitle>
                         <Activity className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -135,22 +135,22 @@ export default async function OwnerPage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Workout Stats</CardTitle>
+                        <CardTitle className="text-sm font-medium">Estatísticas de Treinamento</CardTitle>
                         <Dumbbell className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {workoutStats._avg.duration || 0} mins avg
+                            {workoutStats._avg.duration || 0} mins média
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            {workoutStats._sum.duration || 0} total minutes
+                            {workoutStats._sum.duration || 0} minutos totais
                         </p>
                     </CardContent>
                 </Card>
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">System Health</CardTitle>
+                        <CardTitle className="text-sm font-medium">Saúde do Sistema</CardTitle>
                         {systemHealth ? (
                             <div className="h-4 w-4 rounded-full bg-green-500" />
                         ) : (
@@ -159,16 +159,16 @@ export default async function OwnerPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {systemHealth ? 'All Systems Normal' : 'Issues Detected'}
+                            {systemHealth ? 'Todos os sistemas normais' : 'Problemas detectados'}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                            Database connection: {systemHealth ? 'Active' : 'Inactive'}
+                            Conexão com o banco de dados: {systemHealth ? 'Ativa' : 'Inativa'}
                         </p>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* Recent Activity Section */}
+            {/* Seção de Atividade Recente */}
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export default async function OwnerPage() {
                 </CardContent>
             </Card>
 
-            {/* Quick Actions Card */}
+            {/* Cartão de Ações Rápidas */}
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -224,4 +224,5 @@ export default async function OwnerPage() {
             </Card>
         </div>
     );
+
 }

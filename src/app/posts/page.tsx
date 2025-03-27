@@ -153,12 +153,12 @@ export default function PostsPage() {
     return (
         <div className="container mx-auto p-4 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                <h1 className="text-3xl font-bold text-primary flex gap-2 items-center justify-center flex-col md:flex-row"><NewspaperIcon className='h-8 w-8' /> Gym Announcements</h1>
+                <h1 className="text-3xl font-bold text-primary flex gap-2 items-center justify-center flex-col md:flex-row"><NewspaperIcon className='h-8 w-8' />Anúncios</h1>
                 {['owner', 'admin'].includes(session.user.role) && (
                     <Button asChild className="w-full md:w-auto bg-primary hover:bg-primary/90">
                         <Link href="/posts/create" className="gap-2">
                             <PlusCircleIcon className="h-4 w-4" />
-                            <span>New Post</span>
+                            <span>Novo Post</span>
                         </Link>
                     </Button>
                 )}

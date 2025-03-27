@@ -28,7 +28,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
-                    // Convert to numbers
+                    // Converter para números
                     currentWeight: parseFloat(formData.currentWeight),
                     height: parseFloat(formData.height),
                     waistCircumference: parseFloat(formData.waistCircumference),
@@ -40,13 +40,13 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
             })
 
             if (response.ok) {
-                toast.success('Metrics updated successfully!')
+                toast.success('Métricas atualizadas com sucesso!')
                 window.location.reload()
             } else {
-                toast.error('Failed to update metrics')
+                toast.error('Falha ao atualizar métricas')
             }
         } catch (error) {
-            toast.error('An error occurred while updating metrics')
+            toast.error('Ocorreu um erro ao atualizar as métricas')
         }
     }
 
@@ -54,18 +54,18 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
         <Drawer>
             <DrawerTrigger asChild>
                 <Button variant="default" className="mt-4">
-                    Update Metrics
+                    Atualizar Métricas
                 </Button>
             </DrawerTrigger>
             <DrawerContent>
                 <div className="mx-auto w-full max-w-md p-6">
                     <DrawerHeader>
-                        <DrawerTitle>Update Health Metrics</DrawerTitle>
+                        <DrawerTitle>Atualizar Métricas de Saúde</DrawerTitle>
                     </DrawerHeader>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="currentWeight">Current Weight (kg)</Label>
+                            <Label htmlFor="currentWeight">Peso Atual (kg)</Label>
                             <Input
                                 id="currentWeight"
                                 type="number"
@@ -77,7 +77,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="height">Height (meters)</Label>
+                            <Label htmlFor="height">Altura (metros)</Label>
                             <Input
                                 id="height"
                                 type="number"
@@ -90,7 +90,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="waistCircumference">Waist (cm)</Label>
+                                <Label htmlFor="waistCircumference">Cintura (cm)</Label>
                                 <Input
                                     id="waistCircumference"
                                     type="number"
@@ -101,7 +101,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="hipCircumference">Hip (cm)</Label>
+                                <Label htmlFor="hipCircumference">Quadril (cm)</Label>
                                 <Input
                                     id="hipCircumference"
                                     type="number"
@@ -114,7 +114,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="bodyFat">Body Fat (%)</Label>
+                                <Label htmlFor="bodyFat">Gordura Corporal (%)</Label>
                                 <Input
                                     id="bodyFat"
                                     type="number"
@@ -125,7 +125,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="muscleMass">Muscle Mass (%)</Label>
+                                <Label htmlFor="muscleMass">Massa Muscular (%)</Label>
                                 <Input
                                     id="muscleMass"
                                     type="number"
@@ -137,7 +137,7 @@ export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
                         </div>
 
                         <Button type="submit" className="w-full">
-                            Save Changes
+                            Salvar Alterações
                         </Button>
                     </form>
                 </div>

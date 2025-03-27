@@ -28,11 +28,11 @@ const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: 'name',
-        header: 'Name',
+        header: 'Nome',
     },
     {
         accessorKey: 'role',
-        header: 'Role',
+        header: 'Cargo',
         cell: ({ row }) => {
             const role = row.getValue('role') as string
             return (
@@ -47,7 +47,7 @@ const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: 'createdAt',
-        header: 'Joined',
+        header: 'Cliente desde',
         cell: ({ row }) => new Date(row.getValue<Date>('createdAt')).toLocaleDateString()
     },
     {
@@ -87,7 +87,7 @@ const columns: ColumnDef<User>[] = [
                         body: JSON.stringify({ email: user.email })
                     })
 
-                    if (!response.ok) throw new Error('Failed to delete user')
+                    if (!response.ok) throw new Error('Erro ao deletar usuário')
 
                     toast.success(`Usuário ${user.email} deletado`)
                     // setUsers(prev => prev.filter(u => u.email !== user.email))
@@ -155,11 +155,11 @@ export default function OwnerManagement() {
         const fetchUsers = async () => {
             try {
                 const response = await fetch('/api/admin/users')
-                if (!response.ok) throw new Error('Failed to fetch users')
+                if (!response.ok) throw new Error('Falha ao buscar usuários')
                 const data = await response.json()
                 setUsers(data)
             } catch (error) {
-                toast('Failed to fetch users')
+                toast('Falha ao buscar usuários')
             } finally {
                 setLoading(false)
             }
@@ -181,7 +181,7 @@ export default function OwnerManagement() {
         <div className="container mx-auto p-4 space-y-6">
             <Card>
                 <CardHeader className="flex flex-col md:flex-row gap-3 items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-primary">User Management</CardTitle>
+                    <CardTitle className="text-primary">Gerenciamento de Usuários</CardTitle>
                     <Button variant="outline" className="border-primary text-primary">
                         <Link href="/owner">Voltar para o Dashboard</Link>
                     </Button>
@@ -198,7 +198,7 @@ export default function OwnerManagement() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-primary">Recent Signups</CardTitle>
+                    <CardTitle className="text-primary">Cadastros Recentes</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">

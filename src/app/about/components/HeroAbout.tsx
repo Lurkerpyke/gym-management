@@ -18,10 +18,10 @@ const HeroAbout = () => {
                 >
                     <div className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-4 md:mb-6 text-center 
                pb-1 leading-[1.2] px-2 bg-[length:100%_150%] bg-center">
-                        Redefining Fitness Excellence
+                        Redefinindo a Excelência Fitness
                     </div>
                     <div className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto text-center leading-snug">
-                        Since 2012, we've transformed 50,000+ lives through science-backed training and community support
+                        Desde 2012, transformamos mais de 300 vidas por meio de treinamentos baseados na ciência e no apoio da comunidade
                     </div>
                 </motion.div>
             </LampContainer>

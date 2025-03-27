@@ -7,80 +7,80 @@ export default function AboutPage() {
     const features = [
         {
             icon: <Dumbbell className="w-8 h-8" />,
-            title: "Equipamentos de alto nível",
-            description: "500+ pieces of cutting-edge equipment across 10 specialized zones"
+            title: "Equipamentos de Alto Nível",
+            description: "500+ equipamentos de última geração distribuídos em 10 áreas especializadas"
         },
         {
             icon: <Trophy className="w-8 h-8" />,
-            title: "Expert Trainers",
-            description: "50+ certified professionals with proven success records"
+            title: "Treinadores Especializados",
+            description: "Mais de 50 profissionais certificados com histórico comprovado de sucesso"
         },
         {
             icon: <HeartPulse className="w-8 h-8" />,
-            title: "Holistic Wellness",
-            description: "Combining fitness, nutrition, and mental health programs"
+            title: "Bem-Estar Holístico",
+            description: "Integração de programas de condicionamento físico, nutrição e saúde mental"
         },
     ];
 
     const team = [
         {
             name: "Marcus Johnson",
-            role: "Head Coach",
-            bio: "15+ years experience in strength training",
+            role: "Treinador-Chefe",
+            bio: "Mais de 15 anos de experiência em treinamento de força",
             image: "/Marcus.webp"
         },
         {
             name: "Sarah Chen",
-            role: "Nutrition Specialist",
-            bio: "Registered dietitian & sports nutrition expert",
+            role: "Especialista em Nutrição",
+            bio: "Nutricionista registrada e especialista em nutrição esportiva",
             image: "/sarah.webp"
         },
         {
             name: "Emily Letícia",
-            role: "Yoga Master",
-            bio: "5000+ hours of teaching experience",
+            role: "Mestre em Yoga",
+            bio: "Mais de 5000 horas de experiência em ensino",
             image: "/emily.webp"
         },
     ];
 
     return (
         <div className="space-y-20 pb-20 flex flex-col items-center">
-            {/* Modified Hero Section with Lamp Effect */}
+            {/* Seção do Herói Modificada com Efeito de Iluminação */}
             <HeroAbout />
 
-            {/* Gym Story Section */}
+            {/* Seção da História da Academia */}
             <section className="container grid md:grid-cols-2 gap-12 items-center px-5">
                 <div className="space-y-6 flex flex-col items-center md:items-start">
-                    <h2 className="text-3xl font-bold">Our Fitness Philosophy</h2>
+                    <h2 className="text-3xl font-bold">Nossa Filosofia de Fitness</h2>
                     <p className="text-muted-foreground text-lg">
-                        At EliteFit, we believe true fitness is sustainable, personalized, and empowering.
-                        Our 50,000 sq.ft facility was designed with one goal - to create an ecosystem where
-                        every member feels supported in their unique journey.
+                        Na <span className="italic font-bold">GymPro</span>, acreditamos que a verdadeira forma física deve ser sustentável, personalizada e empoderadora.
+                        Nossa instalação de 300 metros quadrados foi projetada com um único objetivo: criar um ecossistema onde
+                        cada membro se sinta apoiado em sua jornada única.
                     </p>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="p-6 rounded-xl bg-primary/10">
-                            <h3 className="text-2xl font-bold text-primary">10K+</h3>
-                            <p className="text-muted-foreground">Active Members</p>
+                            <h3 className="text-2xl font-bold text-primary">100+</h3>
+                            <p className="text-muted-foreground">Membros Ativos</p>
                         </div>
                         <div className="p-6 rounded-xl bg-secondary/10">
                             <h3 className="text-2xl font-bold text-secondary-foreground">200+</h3>
-                            <p className="text-muted-foreground">Weekly Classes</p>
+                            <p className="text-muted-foreground">Aulas Semanais</p>
                         </div>
                     </div>
                 </div>
                 <div className="relative aspect-video rounded-2xl overflow-hidden">
                     <Image
                         src="/gymholder.webp"
-                        alt="Gym Interior"
+                        alt="Interior da Academia"
                         fill
                         className="object-cover"
                     />
                 </div>
             </section>
 
-            {/* Features Section */}
+            {/* Seção de Diferenciais */}
             <section className="container space-y-12">
-                <h2 className="text-3xl font-bold text-center">Why EliteFit Stands Out</h2>
+                <h2 className="text-3xl font-bold text-center">Por Que a <span className="font-bold italic">GymPro</span> se Destaca</h2>
                 <div className="grid md:grid-cols-3 gap-8">
                     {features.map((feature, index) => (
                         <Card key={index} className="hover:shadow-lg transition-shadow h-full">
@@ -98,9 +98,9 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Team Section */}
+            {/* Seção de Equipe */}
             <section className="container space-y-12">
-                <h2 className="text-3xl font-bold text-center">Meet Our Leadership</h2>
+                <h2 className="text-3xl font-bold text-center">Conheça Nossa Liderança</h2>
                 <div className="grid md:grid-cols-3 gap-8 px-5">
                     {team.map((member, index) => (
                         <Card key={index} className="group overflow-hidden hover:shadow-lg transition-shadow">
@@ -122,17 +122,17 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Values Section */}
+            {/* Seção de Valores */}
             <section className="container bg-secondary/10 rounded-2xl p-12">
                 <div className="max-w-4xl mx-auto space-y-8 text-center">
                     <CalendarCheck className="w-12 h-12 mx-auto text-primary" />
-                    <h2 className="text-3xl font-bold">Our Commitment</h2>
+                    <h2 className="text-3xl font-bold">Nosso Compromisso</h2>
                     <p className="text-xl text-primary">
-                        Every member receives a personalized 12-week success plan including:
+                        Cada membro recebe um plano de sucesso personalizado de 12 semanas, incluindo:
                     </p>
                     <div className="grid md:grid-cols-4 gap-4">
-                        {['Biometric Analysis', 'Custom Workouts', 'Nutrition Planning', 'Progress Tracking'].map((item) => (
-                            <div key={item} className="p-4 bg-background rounded-lg border border-primary">
+                        {['Análise Biométrica', 'Treinos Personalizados', 'Planejamento Nutricional', 'Acompanhamento de Progresso'].map((item) => (
+                            <div key={item} className="p-4 bg-background rounded-lg border border-primary text-center flex justify-center items-center">
                                 {item}
                             </div>
                         ))}
