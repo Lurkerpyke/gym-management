@@ -4,14 +4,12 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-
 export async function GET(
     request: NextRequest,
-    context: { params: { postId: string } } // Certifique-se de receber `context`
+    context: { params: Promise<{ postId: string }> } // ⬅️ `params` é uma Promise
 ) {
     try {
-        // Aguarde a resolução dos parâmetros
-        const { postId } = await context.params;
+        const { postId } = await context.params; // ✅ Agora está correto!
 
         if (!postId) {
             return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
@@ -35,7 +33,7 @@ export async function GET(
 
 export async function POST(
     request: Request,
-    context: { params: { postId: string } }
+    context: { params: Promise<{ postId: string }> } // ⬅️ `params` é uma Promise
 ) {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
@@ -43,8 +41,7 @@ export async function POST(
     }
 
     try {
-        // Aguarde a resolução dos parâmetros
-        const { postId } = await context.params;
+        const { postId } = await context.params; // ✅ Agora está correto!
 
         if (!postId) {
             return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
@@ -70,4 +67,3 @@ export async function POST(
         );
     }
 }
-
