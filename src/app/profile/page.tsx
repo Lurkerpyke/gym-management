@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -24,9 +24,19 @@ export default async function ProfilePage() {
     }
 
 
-    const metrics = await prisma.userMetrics.findUnique({
-        where: { userId: session.user.id },
+    const metrics = await prisma.userMetrics.findFirst({
+        where: { userId: session.user.id }
     });
+
+    const sanitizedMetrics = metrics ? {
+        currentWeight: metrics.currentWeight ?? undefined,
+        height: metrics.height ?? undefined,
+        waistCircumference: metrics.waistCircumference ?? undefined,
+        hipCircumference: metrics.hipCircumference ?? undefined,
+        neckCircumference: metrics.neckCircumference ?? undefined,
+        bodyFat: metrics.bodyFat ?? undefined,
+        muscleMass: metrics.muscleMass ?? undefined
+    } : undefined;
 
     const sessions = await prisma.workoutSession.findMany({
         where: { userId: session.user.id },
@@ -219,7 +229,7 @@ export default async function ProfilePage() {
                 </Card>
             </div>
 
-            <UpdateMetricsDrawer metrics={metrics} />
+            <UpdateMetricsDrawer metrics={sanitizedMetrics} />
 
 
             {/* Workout Schedule Section */}
