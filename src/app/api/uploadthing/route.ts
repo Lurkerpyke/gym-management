@@ -4,7 +4,7 @@ import { createRouteHandler } from "uploadthing/next";
 
 const f = createUploadthing();
 
-export const fileRouter = {
+const fileRouter = {
     imageUploader: f({
         image: { maxFileSize: "4MB", maxFileCount: 1 },
         video: { maxFileSize: "16MB", maxFileCount: 1 }
