@@ -19,13 +19,13 @@ model User {
   accounts        Account[]
   sessions        Session[]
   metrics         UserMetrics?
-  workoutSessions WorkoutSession[]
-  activityLogs    ActivityLog[]    @relation("UserActivity")
-  targetedLogs    ActivityLog[]    @relation("TargetUserRelation")
+  workoutSessions WorkoutSession[]  
+  activityLogs    ActivityLog[]     @relation("UserActivity")
+  targetedLogs    ActivityLog[]     @relation("TargetUserRelation")
   notifications   Notification[]
-  posts           Post[]
-  comments        Comment[]
-  gymInvites      GymInvite[]      @relation("UserInvites") // Adicione esta linha
+  posts           Post[]        
+  comments        Comment[]     
+  gymInvites      GymInvite[]       @relation("UserInvites")
 }
 
 model Account {
@@ -52,13 +52,13 @@ model Session {
   userId       String
   expires      DateTime
   sessionToken String   @unique
-  user         User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserMetrics {
   id                  String   @id @default(cuid())
   userId              String   @unique
-  user                User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   currentWeight       Float    // in kg
   height              Float?   // in meters
   bmi                 Float?
@@ -75,7 +75,7 @@ model UserMetrics {
 model WorkoutSession {
   id          String   @id @default(cuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   title       String
   description String?
   date        DateTime
@@ -102,8 +102,8 @@ model ActivityLog {
   createdAt    DateTime     @default(now())
   metadata     Json?
 
-  user       User  @relation(fields: [userId], references: [id], name: "UserActivity")
-  targetUser User? @relation(fields: [targetUserId], references: [id], name: "TargetUserRelation")
+  user       User  @relation(fields: [userId], references: [id], name: "UserActivity", onDelete: Cascade)
+  targetUser User? @relation(fields: [targetUserId], references: [id], name: "TargetUserRelation", onDelete: Cascade)
 
   @@index([userId])
   @@index([createdAt])
@@ -113,7 +113,7 @@ model ActivityLog {
 model Notification {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   title     String
   message   String
   isRead    Boolean  @default(false)
@@ -129,7 +129,7 @@ model Post {
   title       String
   content     String
   mediaUrl    String?
-  author      User      @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -149,7 +149,7 @@ model Comment {
   content   String
   post      Post     @relation(fields: [postId], references: [id])
   postId    String
-  author    User     @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
   createdAt DateTime @default(now())
 }
@@ -162,5 +162,5 @@ model GymInvite {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String?
-  user      User?    @relation("UserInvites", fields: [userId], references: [id])
+  user User? @relation("UserInvites", fields: [userId], references: [id], onDelete: Cascade)
 }

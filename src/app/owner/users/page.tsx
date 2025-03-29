@@ -49,26 +49,37 @@ const UserActions = ({ user }: { user: User }) => {
     }
 
     const deleteUser = async () => {
-        if (!window.confirm(`Tem certeza que deseja deletar ${user.email}?`)) return
+        if (!window.confirm(`Tem certeza que deseja deletar ${user.email}?`)) return;
 
-        setLoading(true)
+        setLoading(true);
         try {
             const response = await fetch('/api/admin/users', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: user.email })
-            })
+            });
 
-            if (!response.ok) throw new Error('Erro ao deletar usuário')
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.details || data.error || 'Erro ao deletar usuário');
+            }
 
-            toast.success(`Usuário ${user.email} deletado`)
+            toast.success(`Usuário ${user.email} deletado`);
+            // Optionally refresh the user list
         } catch (error) {
-            console.error('Erro ao deletar usuário:', error)
-            toast.error('Falha ao deletar usuário')
+            console.error('Erro ao deletar usuário:', error);
+
+            // Check if error is an Error object
+            if (error instanceof Error) {
+                toast.error(error.message || 'Falha ao deletar usuário');
+            } else {
+                toast.error('Falha ao deletar usuário');
+            }
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
+
 
     return (
         <DropdownMenu>
