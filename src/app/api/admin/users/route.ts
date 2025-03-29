@@ -159,7 +159,7 @@ export async function DELETE(req: Request) {
         } else if (typeof error === "object") {
             try {
                 errorMessage = JSON.stringify(error);
-            } catch (e) {
+            } catch {
                 errorMessage = "Erro ao stringificar o objeto de erro";
             }
         }
