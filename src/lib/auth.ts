@@ -1,7 +1,7 @@
 // lib/auth.ts
 import { getServerSession, NextAuthOptions, User } from "next-auth";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -56,15 +56,9 @@ export const authOptions: NextAuthOptions = {
 
                 if (existingUser) return true;
 
-                // Get cookies synchronously
-                const headersList = await headers();
-                const cookieHeader = headersList.get('cookie') || '';
-                const inviteCode = cookieHeader
-                    .split(';')
-                    .find((c: string) => c.trim().startsWith('inviteCode='))
-                    ?.split('=')[1]
-                    ?.toUpperCase()
-                    .trim();
+                // FIXED COOKIE ACCESS
+                const cookieStore = await cookies();
+                const inviteCode = cookieStore.get('inviteCode')?.value?.toUpperCase().trim();
 
                 if (!inviteCode) {
                     console.log('🚫 Código não fornecido para:', user.email);
@@ -99,14 +93,8 @@ export const authOptions: NextAuthOptions = {
     events: {
         async createUser({ user }: { user: User }) {
             try {
-                const headersList = await headers();
-                const cookieHeader = headersList.get('cookie') || '';
-                const inviteCode = cookieHeader
-                    .split(';')
-                    .find((c: string) => c.trim().startsWith('inviteCode='))
-                    ?.split('=')[1]
-                    ?.toUpperCase()
-                    .trim();
+                const cookieStore = await cookies();
+                const inviteCode = cookieStore.get('inviteCode')?.value?.toUpperCase().trim();
 
                 if (inviteCode) {
                     await prisma.gymInvite.updateMany({
