@@ -1,20 +1,28 @@
 // app/api/posts/[postId]/comments/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
 
 export async function GET(
-    request: Request,
-    { params }: { params: { postId: string } }
+    request: NextRequest,
+    context: { params: { postId: string } } // Certifique-se de receber `context`
 ) {
     try {
+        // Aguarde a resolução dos parâmetros
+        const { postId } = await context.params;
+
+        if (!postId) {
+            return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
+        }
+
         const comments = await prisma.comment.findMany({
-            where: { postId: params.postId },
+            where: { postId },
             include: { author: { select: { name: true, image: true } } },
             orderBy: { createdAt: 'desc' }
         });
+
         return NextResponse.json(comments);
     } catch (error) {
         console.error("Error fetching comments:", error);
@@ -27,7 +35,7 @@ export async function GET(
 
 export async function POST(
     request: Request,
-    { params }: { params: { postId: string } }
+    context: { params: { postId: string } }
 ) {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
@@ -35,15 +43,22 @@ export async function POST(
     }
 
     try {
+        // Aguarde a resolução dos parâmetros
+        const { postId } = await context.params;
+
+        if (!postId) {
+            return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
+        }
+
         const { content } = await request.json();
 
         const newComment = await prisma.comment.create({
             data: {
                 content,
-                postId: params.postId,
+                postId,
                 authorId: session.user.id
             },
-            include: { author: { select: { id: true, name: true, image: true } } } // Add this
+            include: { author: { select: { id: true, name: true, image: true } } }
         });
 
         return NextResponse.json(newComment, { status: 201 });
@@ -55,3 +70,4 @@ export async function POST(
         );
     }
 }
+
