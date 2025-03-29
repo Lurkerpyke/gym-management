@@ -43,6 +43,7 @@ export function NotificationForm() {
                 toast.error(result.error || 'Erro ao enviar notificação');
             }
         } catch (error) {
+            console.error('Erro ao enviar notificação:', error);
             toast.error('Erro de conexão');
         }
     };

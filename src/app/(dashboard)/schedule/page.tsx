@@ -1,12 +1,12 @@
 // app/(routes)/schedule/page.tsx
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardHeader, CardContent, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Clock, Dumbbell, CalendarDays, X, AlarmClock, Activity } from "lucide-react";
+import { Plus, CalendarDays, X, AlarmClock, Activity } from "lucide-react";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import prisma from "@/lib/prisma"
-import { format, isToday, isTomorrow } from "date-fns";
+import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
 export default async function SchedulePage() {

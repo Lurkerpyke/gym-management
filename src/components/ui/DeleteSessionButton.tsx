@@ -21,6 +21,7 @@ export default function DeleteSessionButton({ sessionId }: { sessionId: string }
                 window.location.reload();
             }
         } catch (error) {
+            console.error("Error deleting session:", error);
             toast.error("Failed to delete session");
         }
     };

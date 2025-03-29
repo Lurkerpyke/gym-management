@@ -1,6 +1,8 @@
 export async function POST(request: Request) {
     const data = await request.json();
 
+    console.log('Received data:', data);
+
     // Add your email sending logic here
     // Example: Send email using Resend, Nodemailer, etc.
 

@@ -35,6 +35,8 @@ export default function ClientComponent() {
         }
     });
 
+    const mediaUrl = form.watch('mediaUrl');
+
     // Auth check effect
     useEffect(() => {
         if (status === "loading") return;
@@ -47,10 +49,10 @@ export default function ClientComponent() {
 
     // Form effect
     useEffect(() => {
-        if (!form.watch('mediaUrl')) {
+        if (!mediaUrl) {
             form.setValue('postType', 'text');
         }
-    }, [form, form.watch('mediaUrl')]);
+    }, [form, mediaUrl]);
 
     if (status === "loading" || !authChecked) {
         return <Loading />;
@@ -76,6 +78,7 @@ export default function ClientComponent() {
                 toast.error('Failed to create post');
             }
         } catch (error) {
+            console.error('Error creating post:', error);
             toast.error('An error occurred');
         }
     };

@@ -26,6 +26,7 @@ export default function CompleteSessionButton({
                     window.location.reload()
                 }
             } catch (error) {
+                console.error('Error updating status:', error)
                 toast.error('Failed to update status')
             }
         }

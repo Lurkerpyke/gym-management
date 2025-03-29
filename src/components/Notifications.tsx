@@ -1,19 +1,20 @@
 // components/Notifications.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { Bell, BellDot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 export function NotificationSystem({ sessions }: { sessions: Array<{ id: string; title: string; date: Date }> }) {
-    // Show toast notifications on initial load
-    const [notifiedSessions, setNotifiedSessions] = useState<Set<string>>(new Set())
+    // Track notified sessions with a ref instead of state
+    const notifiedSessions = useRef<Set<string>>(new Set()) // Using useRef
+
     useEffect(() => {
-        // Filter sessions that haven't been notified yet
+        // Filter sessions that haven't been notified yet using ref
         const newSessions = sessions.filter(
-            session => !notifiedSessions.has(session.id)
+            session => !notifiedSessions.current.has(session.id)
         )
 
         newSessions.forEach(session => {
@@ -28,13 +29,9 @@ export function NotificationSystem({ sessions }: { sessions: Array<{ id: string;
             })
         })
 
-        // Update notified sessions
-        setNotifiedSessions(prev => {
-            const newSet = new Set(prev)
-            newSessions.forEach(session => newSet.add(session.id))
-            return newSet
-        })
-    }, [sessions]) // Only trigger when sessions change
+        // Update notified sessions ref
+        newSessions.forEach(session => notifiedSessions.current.add(session.id))
+    }, [sessions]) // Only sessions in dependencies
 
     return (
         <Popover>

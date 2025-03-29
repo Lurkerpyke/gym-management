@@ -55,6 +55,7 @@ export function UserForm() {
                 toast.error(result.error || 'Erro ao criar usuário');
             }
         } catch (error) {
+            console.error('Erro ao criar usuário:', error);
             toast.error('Erro de conexão');
         }
     };

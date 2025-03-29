@@ -114,7 +114,7 @@ export default function Home() {
                   <CardDescription>{testimonial.role}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>"{testimonial.quote}"</p>
+                  <p>&quot;{testimonial.quote}&quot;</p>
                 </CardContent>
               </Card>
             ))}

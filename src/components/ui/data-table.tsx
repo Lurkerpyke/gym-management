@@ -8,7 +8,7 @@ import {
     HeaderGroup,
     Row,
     Cell,
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
 import {
     Table,
     TableBody,
@@ -16,9 +16,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

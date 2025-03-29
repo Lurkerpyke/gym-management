@@ -51,6 +51,7 @@ export function MultiUserSelect({
             const data = await response.json();
             setUsers(Array.isArray(data) ? data.filter(u => u?.id) : []);
         } catch (err) {
+            console.error('Error loading users:', err);
             setError('Erro ao carregar usuários');
             setUsers([]);
         } finally {

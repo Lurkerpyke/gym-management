@@ -6,7 +6,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { Plus, Calendar as CalendarIcon, Clock } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import type { WorkoutSession } from '@prisma/client'
 
 interface WorkoutSessionDrawerProps {
@@ -44,6 +44,7 @@ export default function WorkoutSessionDrawer({ session, onSuccess }: WorkoutSess
                 toast.error('Failed to save session')
             }
         } catch (error) {
+            console.error('Error:', error)
             toast.error('An error occurred while saving session')
         }
     }

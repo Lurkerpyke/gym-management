@@ -68,9 +68,6 @@ export default async function OwnerPage() {
         prisma.$queryRaw<{ status: number }[]>`SELECT 1 as status`
     ]);
 
-    // Add type assertion for system health
-    const isSystemHealthy = (systemHealth as { status: number }[]).length > 0;
-
     return (
         <div className="container mx-auto p-4 space-y-6">
             {/* Cabeçalho do Dashboard */}

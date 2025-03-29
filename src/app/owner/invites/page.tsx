@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { toast } from 'sonner';
 
 export default function InviteManager() {
-    const [codes, setCodes] = useState<any[]>([]);
+    const [codes, setCodes] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [expiresIn, setExpiresIn] = useState('168');
 

@@ -1,10 +1,9 @@
 // src/api/auth/[...nextauth]/route.ts
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { JWT } from "next-auth/jwt";
 import { headers } from "next/headers";
 
 const prisma = new PrismaClient();
@@ -48,7 +47,7 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-        async signIn({ user, account }) {
+        async signIn({ user }) {
             try {
                 // Verificar se é um usuário existente
                 const existingUser = await prisma.user.findUnique({

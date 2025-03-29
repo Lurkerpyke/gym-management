@@ -1,55 +1,95 @@
 // components/UpdateMetricsDrawer.tsx
 'use client'
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { toast } from 'sonner'
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
 
-export default function UpdateMetricsDrawer({ metrics }: { metrics?: any }) {
-    const [formData, setFormData] = useState({
-        currentWeight: metrics?.currentWeight || '',
-        height: metrics?.height || '',
-        waistCircumference: metrics?.waistCircumference || '',
-        hipCircumference: metrics?.hipCircumference || '',
-        neckCircumference: metrics?.neckCircumference || '',
-        bodyFat: metrics?.bodyFat || '',
-        muscleMass: metrics?.muscleMass || ''
-    })
+// Types for the form input (all strings since inputs return strings)
+type MetricsInput = {
+    currentWeight: string;
+    height: string;
+    waistCircumference: string;
+    hipCircumference: string;
+    neckCircumference: string;
+    bodyFat: string;
+    muscleMass: string;
+};
+
+// Types for the API request (all numbers)
+type MetricsPayload = {
+    currentWeight: number;
+    height: number;
+    waistCircumference?: number;
+    hipCircumference?: number;
+    neckCircumference?: number;
+    bodyFat?: number;
+    muscleMass?: number;
+};
+
+// Types for the initial metrics props (numbers or undefined)
+type MetricsProps = {
+    currentWeight?: number;
+    height?: number;
+    waistCircumference?: number;
+    hipCircumference?: number;
+    neckCircumference?: number;
+    bodyFat?: number;
+    muscleMass?: number;
+};
+
+export default function UpdateMetricsDrawer({ metrics }: { metrics?: MetricsProps }) {
+    const [formData, setFormData] = useState<MetricsInput>({
+        currentWeight: metrics?.currentWeight?.toString() ?? '',
+        height: metrics?.height?.toString() ?? '',
+        waistCircumference: metrics?.waistCircumference?.toString() ?? '',
+        hipCircumference: metrics?.hipCircumference?.toString() ?? '',
+        neckCircumference: metrics?.neckCircumference?.toString() ?? '',
+        bodyFat: metrics?.bodyFat?.toString() ?? '',
+        muscleMass: metrics?.muscleMass?.toString() ?? ''
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
+
+        // Helper function to safely parse to number
+        const parseMetric = (value: string): number | undefined => {
+            const num = parseFloat(value);
+            return isNaN(num) ? undefined : num;
+        };
+
+        // Prepare payload with required and optional fields
+        const payload: MetricsPayload = {
+            currentWeight: parseFloat(formData.currentWeight),
+            height: parseFloat(formData.height),
+            ...(formData.waistCircumference && { waistCircumference: parseMetric(formData.waistCircumference) }),
+            ...(formData.hipCircumference && { hipCircumference: parseMetric(formData.hipCircumference) }),
+            ...(formData.neckCircumference && { neckCircumference: parseMetric(formData.neckCircumference) }),
+            ...(formData.bodyFat && { bodyFat: parseMetric(formData.bodyFat) }),
+            ...(formData.muscleMass && { muscleMass: parseMetric(formData.muscleMass) })
+        };
 
         try {
             const response = await fetch('/api/user-metrics', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    // Converter para números
-                    currentWeight: parseFloat(formData.currentWeight),
-                    height: parseFloat(formData.height),
-                    waistCircumference: parseFloat(formData.waistCircumference),
-                    hipCircumference: parseFloat(formData.hipCircumference),
-                    neckCircumference: parseFloat(formData.neckCircumference),
-                    bodyFat: parseFloat(formData.bodyFat),
-                    muscleMass: parseFloat(formData.muscleMass)
-                })
-            })
+                body: JSON.stringify(payload)
+            });
 
             if (response.ok) {
-                toast.success('Métricas atualizadas com sucesso!')
-                window.location.reload()
+                toast.success('Métricas atualizadas com sucesso!');
+                window.location.reload();
             } else {
-                toast.error('Falha ao atualizar métricas')
+                toast.error('Falha ao atualizar métricas');
             }
         } catch (error) {
-            toast.error('Ocorreu um erro ao atualizar as métricas')
+            console.error("Error updating metrics:", error);
+            toast.error('Ocorreu um erro ao atualizar as métricas');
         }
-    }
-
+    };
     return (
         <Drawer>
             <DrawerTrigger asChild>

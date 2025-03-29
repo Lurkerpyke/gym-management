@@ -29,6 +29,7 @@ export async function POST(req: Request) {
             codes: codes.map(c => c.code)
         });
     } catch (error) {
+        console.error("Error generating codes:", error);
         return NextResponse.json(
             { error: "Failed to generate codes" },
             { status: 500 }

@@ -46,6 +46,14 @@ type Post = {
     comments?: Comment[];
 };
 
+type ApiPost = Omit<Post, 'postType'> & {
+    postType: string; // The API might return any string
+};
+
+function isValidPostType(type: string): type is 'image' | 'video' | 'text' {
+    return ['image', 'video', 'text'].includes(type);
+}
+
 export default function PostsPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -118,12 +126,12 @@ export default function PostsPage() {
             try {
                 const response = await fetch('/api/posts');
                 const data = await response.json();
-                const validatedPosts = data.map((post: any) => ({
+
+                const validatedPosts = data.map((post: ApiPost) => ({
                     ...post,
-                    postType: ['image', 'video', 'text'].includes(post.postType)
-                        ? post.postType
-                        : 'text'
+                    postType: isValidPostType(post.postType) ? post.postType : 'text'
                 }));
+
                 setPosts(validatedPosts);
             } catch (error) {
                 console.error('Failed to load posts:', error);
@@ -204,6 +212,7 @@ export default function PostsPage() {
                                 <DialogTitle className='hidden'>Post Media</DialogTitle>
                                 <DialogContent className="max-w-[90vw] max-h-[90vh]">
                                     {selectedMedia?.type === 'image' ? (
+                                        // eslint-disable-next-line @next/next/no-img-element
                                         <img
                                             src={selectedMedia.url}
                                             alt="Enlarged post media"
@@ -229,6 +238,7 @@ export default function PostsPage() {
                                 {post.mediaUrl && (
                                     <div className="relative max-w-full max-h-[200px] mx-auto rounded-xl overflow-hidden border cursor-pointer hover:opacity-90 transition-opacity">
                                         {post.postType === 'image' ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
                                             <img
                                                 src={post.mediaUrl}
                                                 alt="Post media"

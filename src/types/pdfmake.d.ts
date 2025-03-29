@@ -1,6 +1,18 @@
 // src/types/pdfmake.d.ts
 declare module 'pdfmake/build/pdfmake' {
-    const pdfmake: any;
+    import { TDocumentDefinitions } from 'pdfmake/interfaces';
+
+    interface PdfMake {
+        createPdf(documentDefinition: TDocumentDefinitions): {
+            download(filename?: string): void;
+            open(): void;
+            print(): void;
+        };
+        vfs: Record<string, string>;
+        fonts: Record<string, unknown>;
+    }
+
+    const pdfmake: PdfMake;
     export default pdfmake;
 }
 

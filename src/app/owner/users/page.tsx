@@ -21,6 +21,94 @@ type User = {
     createdAt: Date
 }
 
+// New component to handle actions with proper hooks usage
+const UserActions = ({ user }: { user: User }) => {
+    const [loading, setLoading] = useState(false)
+    const { data: session } = useSession()
+
+    const updateRole = async (newRole: string) => {
+        setLoading(true)
+        try {
+            const response = await fetch('/api/admin/users', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id, role: newRole })
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to update role')
+            }
+            toast.success(`${user.email}'s role updated to ${newRole}`)
+        } catch (error) {
+            console.error('Error updating role:', error)
+            toast.error('Failed to update role')
+        } finally {
+            setLoading(false)
+            window.location.reload()
+        }
+    }
+
+    const deleteUser = async () => {
+        if (!window.confirm(`Tem certeza que deseja deletar ${user.email}?`)) return
+
+        setLoading(true)
+        try {
+            const response = await fetch('/api/admin/users', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email })
+            })
+
+            if (!response.ok) throw new Error('Erro ao deletar usuário')
+
+            toast.success(`Usuário ${user.email} deletado`)
+        } catch (error) {
+            console.error('Erro ao deletar usuário:', error)
+            toast.error('Falha ao deletar usuário')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className='bg-secondary'>
+                <DropdownMenuItem
+                    onClick={() => updateRole('admin')}
+                    disabled={loading || user.role === 'admin'}
+                >
+                    Mudar para Admin
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    onClick={() => updateRole('user')}
+                    disabled={loading || user.role === 'user'}
+                >
+                    Mudar para User
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    onClick={() => updateRole('owner')}
+                    disabled={loading || user.role === 'owner'}
+                >
+                    Mudar para Owner
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                    onClick={deleteUser}
+                    disabled={loading || user.email === session?.user?.email}
+                    className="text-foreground focus:bg-destructive bg-primary"
+                >
+                    Deletar Usuário
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+
 const columns: ColumnDef<User>[] = [
     {
         accessorKey: 'email',
@@ -37,8 +125,8 @@ const columns: ColumnDef<User>[] = [
             const role = row.getValue('role') as string
             return (
                 <span className={`px-2 py-1 rounded text-xs font-medium ${role === 'owner' ? 'bg-purple-100 text-purple-800' :
-                        role === 'admin' ? 'bg-blue-100 text-blue-800' :
-                            'bg-gray-100 text-gray-800'
+                    role === 'admin' ? 'bg-blue-100 text-blue-800' :
+                        'bg-gray-100 text-gray-800'
                     }`}>
                     {role}
                 </span>
@@ -52,94 +140,9 @@ const columns: ColumnDef<User>[] = [
     },
     {
         id: 'actions',
-        cell: ({ row }) => {
-            const user = row.original
-            const [loading, setLoading] = useState(false)
-            const { data: session } = useSession()
-
-            const updateRole = async (newRole: string) => {
-                setLoading(true)
-                try {
-                    const response = await fetch('/api/admin/users', {
-                        method: 'PATCH',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ userId: user.id, role: newRole })
-                    })
-
-                    if (!response.ok) {throw new Error('Failed to update role') || toast.success(`${user.email}'s role updated to ${newRole}`)}
-                    
-                } catch (error) {
-                    toast.error('Failed to update role')
-                } finally {
-                    setLoading(false)
-                    window.location.reload()
-                }
-            }
-
-            const deleteUser = async () => {
-                if (!window.confirm(`Tem certeza que deseja deletar ${user.email}?`)) return
-
-                setLoading(true)
-                try {
-                    const response = await fetch('/api/admin/users', {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: user.email })
-                    })
-
-                    if (!response.ok) throw new Error('Erro ao deletar usuário')
-
-                    toast.success(`Usuário ${user.email} deletado`)
-                    // setUsers(prev => prev.filter(u => u.email !== user.email))
-                } catch (error) {
-                    toast.error('Falha ao deletar usuário')
-                } finally {
-                    setLoading(false)
-                }
-            }
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className='bg-secondary'>
-                        <DropdownMenuItem
-                            onClick={() => updateRole('admin')}
-                            disabled={loading || user.role === 'admin'}
-                        >
-                            Mudar para Admin
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => updateRole('user')}
-                            disabled={loading || user.role === 'user'}
-                        >
-                            Mudar para User
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => updateRole('owner')}
-                            disabled={loading || user.role === 'owner'}
-                        >
-                            Mudar para Owner
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={deleteUser}
-                            disabled={loading || user.email === session?.user?.email}
-                            className="text-foreground focus:bg-destructive bg-primary"
-                        >
-                            Deletar Usuário
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        }
+        cell: ({ row }) => <UserActions user={row.original} />
     }
 ]
-
-// ... rest of the component remains the same ...
 
 export default function OwnerManagement() {
     const { data: session, status } = useSession()
@@ -159,14 +162,15 @@ export default function OwnerManagement() {
                 const data = await response.json()
                 setUsers(data)
             } catch (error) {
-                toast('Falha ao buscar usuários')
+                console.error('Erro ao buscar usuários:', error)
+                toast.error('Falha ao buscar usuários')
             } finally {
                 setLoading(false)
             }
         }
 
         fetchUsers()
-    }, [status, session, toast])
+    }, [status, session]) // Removed toast from dependencies
 
     if (status === 'loading') {
         return (
@@ -211,8 +215,8 @@ export default function OwnerManagement() {
                                     </p>
                                 </div>
                                 <span className={`px-2 py-1 rounded text-xs font-medium ${user.role === "owner" ? "bg-purple-100 text-purple-800" :
-                                        user.role === "admin" ? "bg-blue-100 text-blue-800" :
-                                            "bg-gray-100 text-gray-800"
+                                    user.role === "admin" ? "bg-blue-100 text-blue-800" :
+                                        "bg-gray-100 text-gray-800"
                                     }`}>
                                     {user.role}
                                 </span>

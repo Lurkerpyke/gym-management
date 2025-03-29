@@ -1,20 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getProviders, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { LogInIcon, LockKeyholeIcon, UserPlusIcon, AlertCircle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 
 export default function SignIn() {
-  const [providers, setProviders] = useState<any>(null);
   const [inviteCode, setInviteCode] = useState('');
   const params = useSearchParams();
   const error = params.get('error');
-  const router = useRouter();
 
   const handleSignIn = (provider: string) => {
     // Armazena o código em cookie seguro
@@ -24,13 +22,6 @@ export default function SignIn() {
     });
   };
 
-  useEffect(() => {
-    async function fetchProviders() {
-      const res = await getProviders();
-      setProviders(res);
-    }
-    fetchProviders();
-  }, []);
 
   useEffect(() => {
     // Limpa o cookie após 5 minutos
@@ -128,7 +119,7 @@ export default function SignIn() {
 
             {/* Registration Note */}
             <div className="text-center text-sm text-muted-foreground space-y-2">
-              <p>Don't have an access code?</p>
+              <p>Não tem um código de acesso?</p>
               <Button
                 variant="link"
                 className="text-primary hover:text-primary/80 font-semibold"
@@ -136,7 +127,7 @@ export default function SignIn() {
               >
                 <a href="/contact" className="flex items-center gap-1">
                   <UserPlusIcon className="h-4 w-4" />
-                  Contact Your Gym
+                  Entre em contato
                 </a>
               </Button>
             </div>

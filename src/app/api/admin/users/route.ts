@@ -126,7 +126,7 @@ export async function DELETE(req: Request) {
             );
         }
 
-        const deletedUser = await prisma.user.delete({
+        await prisma.user.delete({
             where: { email }
         });
 

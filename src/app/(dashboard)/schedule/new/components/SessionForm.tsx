@@ -14,6 +14,11 @@ import {
     FormLabel,
 } from "@/components/ui/form";
 
+type FormData = {
+    title: string;
+    date: Date;
+};
+
 export function WorkoutSessionForm() {
     const form = useForm({
         resolver: zodResolver(WorkoutSessionSchema),
@@ -26,7 +31,7 @@ export function WorkoutSessionForm() {
         }
     });
 
-    async function onSubmit(data: any) {
+    async function onSubmit(data: FormData) {
         console.log(data);
     }
 

@@ -45,6 +45,7 @@ export async function GET() {
         })
 
     } catch (error) {
+        console.error("Error fetching user stats:", error)
         return NextResponse.json(
             { error: 'Failed to fetch user stats' },
             { status: 500 }

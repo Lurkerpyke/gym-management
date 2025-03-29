@@ -14,6 +14,40 @@ interface ReportData {
     roleDistribution: Record<string, number>;
 }
 
+type PdfStyle = {
+    fontSize?: number;
+    bold?: boolean;
+    color?: string;
+    margin?: [number, number, number, number];
+};
+
+type PdfContent =
+    | { text: string; style?: string }
+    | { table: PdfTable }
+    | { ul: string[] }
+    | { text: string };
+
+type PdfTable = {
+    widths: string[];
+    body: PdfTableCell[][];
+};
+
+type PdfTableCell = {
+    text: string | number;
+    style?: string;
+};
+
+type PdfDocumentDefinition = {
+    pageOrientation: 'portrait' | 'landscape';
+    content: PdfContent[];
+    styles: {
+        [key: string]: PdfStyle;
+    };
+    defaultStyle: {
+        font: string;
+    };
+};
+
 const iconComponents = {
     users: Users,
     bell: Bell,
@@ -53,12 +87,12 @@ export const QuickActionButton = ({
             };
 
             // PDF document definition
-            const docDefinition = {
+            const docDefinition: PdfDocumentDefinition = {
                 pageOrientation: 'portrait',
                 content: [
                     { text: 'Gym Management Relatório', style: 'header' },
                     { text: `Gerado em: ${new Date().toLocaleDateString()}`, style: 'subheader' },
-                    { text: '\n' }, // Spacer
+                    { text: '\n' },
                     {
                         table: {
                             widths: ['*', '*'],
@@ -78,7 +112,7 @@ export const QuickActionButton = ({
                             ]
                         }
                     },
-                    { text: '\n\n' }, // Spacer
+                    { text: '\n\n' },
                     {
                         text: 'Distribuição de Funções:',
                         style: 'sectionHeader'
@@ -120,7 +154,7 @@ export const QuickActionButton = ({
                 defaultStyle: {
                     font: 'Roboto'
                 }
-            } as any;
+            };
 
             // Generate PDF
             const pdfDoc = pdfMake.default.createPdf(docDefinition);
