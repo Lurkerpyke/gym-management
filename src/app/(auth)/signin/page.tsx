@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
+import Image from 'next/image';
+
 
 export default function SignIn() {
   const [inviteCode, setInviteCode] = useState('');
@@ -33,6 +35,7 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-muted/40 flex items-center justify-center p-4">
+      <Image src="/undraw_email-consent_j36b.svg" alt="Logo" width={200} height={200} className='absolute top-20 left-1/' />
       <div className="grid lg:grid-cols-2 gap-8 w-full max-w-6xl">
         {/* Left Side - Illustration */}
         <div className="hidden lg:flex flex-col justify-center items-center space-y-6 text-center p-8">
