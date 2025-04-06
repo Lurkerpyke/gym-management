@@ -87,10 +87,10 @@ export default function SignIn() {
           <Card className="w-full max-w-md p-8 space-y-8 shadow-xl border-0">
             <div className="space-y-2 text-center">
               <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                {error ? 'Access Required' : 'Welcome Back'}
+                {error ? 'Requer Acesso' : 'Bem vindo de volta!'}
               </h1>
               <p className="text-muted-foreground">
-                {error ? 'Please provide a valid access code' : 'Sign in to access your fitness dashboard'}
+                {error ? 'Providencie um código validado pela academia' : 'Faça Login com sua conta google para continuar'}
               </p>
             </div>
 
@@ -132,6 +132,8 @@ export default function SignIn() {
                   {error === 'OAuthAccountNotLinked' && 'Email já cadastrado'}
                 </div>
               )}
+
+              <p className='text-muted-foreground text-xs'>Primeira vez aqui? coloque o código providenciado pela sua academia</p>
 
             </div>
 
